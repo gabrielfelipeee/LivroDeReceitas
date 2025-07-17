@@ -1,6 +1,6 @@
-﻿using LivroDeReceitas.Comunication.Requests;
+﻿using LivroDeReceitas.Application.UseCases.User.Register;
+using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LivroDeReceitas.API.Controllers
@@ -9,12 +9,14 @@ namespace LivroDeReceitas.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-
         [HttpPost]
         [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
-        public IActionResult Register(RequestRegisterUserJson requestRegisterUserJson)
+        public async Task<IActionResult> Register(
+            [FromServices] IRegisterUserUseCase useCase, // Outra forma de pegar a injeção de dependência
+            [FromBody] RequestRegisterUserJson request) // Body da requisição
         {
-            return Created();
+            var result = await useCase.Execute(request);
+            return Created(string.Empty, result);
         }
     }
 }

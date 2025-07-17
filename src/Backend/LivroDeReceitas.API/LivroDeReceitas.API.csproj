@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<InvariantGlobalization>false</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,7 @@
     <ProjectReference Include="..\..\Shared\LivroDeReceitas.Comunication\LivroDeReceitas.Comunication.csproj" />
     <ProjectReference Include="..\..\Shared\LivroDeReceitas.Exceptions\LivroDeReceitas.Exceptions.csproj" />
     <ProjectReference Include="..\LivroDeReceitas.Application\LivroDeReceitas.Application.csproj" />
+    <ProjectReference Include="..\LivroDeReceitas.Infrastructure\LivroDeReceitas.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
