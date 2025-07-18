@@ -2,6 +2,9 @@ using LivroDeReceitas.API.Filters;
 using LivroDeReceitas.API.Middleware;
 using LivroDeReceitas.Application;
 using LivroDeReceitas.Infrastructure;
+using LivroDeReceitas.Infrastructure.Extensions;
+using LivroDeReceitas.Infrastructure.Migrations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -31,4 +34,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+MigrateDatabase();
+
 app.Run();
+
+void MigrateDatabase()
+{
+    var databaseType = builder.Configuration.DatabaseType();
+    var connectionString = builder.Configuration.ConnectionString();
+    var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
+
+    DatabaseMigration.Migrate(databaseType, serviceScope, connectionString);
+}
