@@ -16,6 +16,12 @@ namespace LivroDeReceitas.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            AddRepositories(services);
+
+            // Não precisa adicionar o contexto e nem o FluentMigrator nos testes
+            if (configuration.IsUnitTestEnvironment())
+                return;
+
             var databaseType = configuration.DatabaseType();
             if (databaseType == DatabaseType.MySql)
             {
@@ -27,7 +33,6 @@ namespace LivroDeReceitas.Infrastructure
                 AddDbContextSqlSqerver(services, configuration);
                 AddFluentMigratorSqlServer(services, configuration);
             }
-            AddRepositories(services);
         }
 
 

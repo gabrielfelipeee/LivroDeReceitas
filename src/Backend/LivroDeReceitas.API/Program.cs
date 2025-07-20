@@ -40,9 +40,16 @@ app.Run();
 
 void MigrateDatabase()
 {
+    // Não precisa fazer migração ao fazer testes
+    if (builder.Configuration.IsUnitTestEnvironment())
+        return;
+
     var databaseType = builder.Configuration.DatabaseType();
     var connectionString = builder.Configuration.ConnectionString();
     var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
 
     DatabaseMigration.Migrate(databaseType, serviceScope, connectionString);
 }
+
+public partial class Program
+{}

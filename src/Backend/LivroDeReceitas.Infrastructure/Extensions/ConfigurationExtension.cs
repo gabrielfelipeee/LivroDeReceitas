@@ -22,5 +22,10 @@ namespace LivroDeReceitas.Infrastructure.Extensions
             else
                 return configuration.GetConnectionString("ConnectionSQLServer")!;
         }
+
+        public static bool IsUnitTestEnvironment(this IConfiguration configuration)
+        {
+            return configuration.GetValue<bool>("InMemoryTest");
+        }
     }
 }
