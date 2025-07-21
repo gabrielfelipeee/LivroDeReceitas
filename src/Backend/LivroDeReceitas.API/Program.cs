@@ -1,3 +1,4 @@
+using LivroDeReceitas.API.Converters;
 using LivroDeReceitas.API.Filters;
 using LivroDeReceitas.API.Middleware;
 using LivroDeReceitas.Application;
@@ -7,7 +8,7 @@ using LivroDeReceitas.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMvc(options => options.Filters.Add<ExceptionFilter>());
@@ -17,6 +18,8 @@ builder.Services.AddMvc(options => options.Filters.Add<ExceptionFilter>());
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
+
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 
@@ -36,7 +39,7 @@ app.MapControllers();
 
 MigrateDatabase();
 
-app.Run();
+await app.RunAsync();
 
 void MigrateDatabase()
 {

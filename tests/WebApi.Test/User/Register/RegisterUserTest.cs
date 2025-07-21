@@ -11,6 +11,8 @@ namespace WebApi.Test.User.Register
 {
     public class RegisterUserTest : IClassFixture<CustomWebApplicationFactory>
     {
+        private readonly string method = "user";
+
         // WebApplicationFactory configura o ambiente de teste com suporte a DI e pipeline completo da aplicação
         private readonly HttpClient _httpClient;
         public RegisterUserTest(CustomWebApplicationFactory factory) => _httpClient = factory.CreateClient();
@@ -22,7 +24,7 @@ namespace WebApi.Test.User.Register
             var request = RequestRegisterUserJsonBuilder.Build();
 
             // Envia a requisição HTTP POST para o endpoint "User"
-            var response = await _httpClient.PostAsJsonAsync("User", request);
+            var response = await _httpClient.PostAsJsonAsync(method, request);
 
             // Verifica se o status HTTP retornado é 201 Created
             response.StatusCode.ShouldBe(HttpStatusCode.Created);
@@ -53,7 +55,7 @@ namespace WebApi.Test.User.Register
                 _httpClient.DefaultRequestHeaders.Remove("Accept-Language");
 
             _httpClient.DefaultRequestHeaders.Add("Accept-Language", culture);
-            var response = await _httpClient.PostAsJsonAsync("User", request);
+            var response = await _httpClient.PostAsJsonAsync(method, request);
 
             response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
