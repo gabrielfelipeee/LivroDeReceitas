@@ -1,6 +1,7 @@
 using Dapper;
 using FluentMigrator.Runner;
 using LivroDeReceitas.Domain.Enums;
+using LivroDeReceitas.Domain.Extensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using MySqlConnector;
@@ -44,7 +45,7 @@ namespace LivroDeReceitas.Infrastructure.Migrations
 
             // Executa uma consulta SQL para verificar se o banco de dados já existe, consultando o esquema do banco de dados.
             var records = dbConnection.Query("SELECT * FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = @dbName", parameters);
-            if (records.Any() == false)
+            if (records.Any().IsFalse())
                 dbConnection.Execute($"CREATE DATABASE {databaseName}");  // Cria o banco de dados com o nome especificado na string de conexão.
         }
 
@@ -63,7 +64,7 @@ namespace LivroDeReceitas.Infrastructure.Migrations
             parameters.Add("dbName", databaseName);
 
             var records = dbConnection.Query("SELECT * FROM sys.databases WHERE name = @dbName", parameters);
-            if (records.Any() == false)
+            if (records.Any().IsFalse())
                 dbConnection.Execute($"CREATE DATABASE {databaseName}");
         }
 

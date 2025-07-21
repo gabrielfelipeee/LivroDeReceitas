@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using LivroDeReceitas.Domain.Extensions;
+using System.Globalization;
 
 namespace LivroDeReceitas.API.Middleware
 {
@@ -17,23 +18,20 @@ namespace LivroDeReceitas.API.Middleware
             var culturesThatSpeakSpanish = CultureInfo.GetCultures(CultureTypes.SpecificCultures | CultureTypes.NeutralCultures)
                 .Where(culture => culture.TwoLetterISOLanguageName == "es").ToList();
 
-
             // Obtém o primeiro valor do cabeçalho Accept-Language (ex: "pt-BR", "en-US") da requisição HTTP
             var requestedCulture = context.Request.Headers.AcceptLanguage.FirstOrDefault();
 
-
             var culture = new CultureInfo("en"); // Define a cultura padrão ("en") caso nenhuma cultura válida seja encontrada
 
-
-            if (string.IsNullOrWhiteSpace(requestedCulture) == false && culturesThatSpeakPortuguese.Any(c => c.Name.Equals(requestedCulture)))
+            if (string.IsNullOrWhiteSpace(requestedCulture).IsFalse()
+                && culturesThatSpeakPortuguese.Exists(c => c.Name.Equals(requestedCulture)))
             {
                 culture = new CultureInfo("pt-BR");
             }
-            else if (culturesThatSpeakSpanish.Any(c => c.Name.Equals(requestedCulture)))
+            else if (culturesThatSpeakSpanish.Exists(c => c.Name.Equals(requestedCulture)))
             {
                 culture = new CultureInfo("es");
             }
-
 
             CultureInfo.CurrentCulture = culture; // Define a cultura atual para formatação de números, datas, moedas etc.
             CultureInfo.CurrentUICulture = culture; // Define a cultura usada para localizar recursos (como arquivos .resx) com base no idioma/região

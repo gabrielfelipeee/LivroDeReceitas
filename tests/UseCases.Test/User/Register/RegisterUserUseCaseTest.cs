@@ -50,7 +50,7 @@ namespace UseCases.Test.User.Register
             exception.ErrorMessages.ShouldContain(ResourceMessagesException.NAME_EMPTY);
         }
 
-        private RegisterUserUseCase CreateUseCase(string? email = null)
+        private static RegisterUserUseCase CreateUseCase(string? email = null)
         {
             var readOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
             if (!string.IsNullOrWhiteSpace(email))

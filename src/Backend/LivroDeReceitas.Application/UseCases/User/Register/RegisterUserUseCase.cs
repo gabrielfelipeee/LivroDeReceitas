@@ -3,6 +3,7 @@ using LivroDeReceitas.Application.Services.Cryptography;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
 using LivroDeReceitas.Domain.Entities;
+using LivroDeReceitas.Domain.Extensions;
 using LivroDeReceitas.Domain.Repositories;
 using LivroDeReceitas.Domain.Repositories.User;
 using LivroDeReceitas.Exceptions;
@@ -58,7 +59,7 @@ namespace LivroDeReceitas.Application.UseCases.User.Register
             if (emailExist)
                 result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesException.EMAIL_ALREADY_REGISTERED));
 
-            if (result.IsValid == false)
+            if (result.IsValid.IsFalse())
             {
                 var errorMessages = result.Errors.Select(error => error.ErrorMessage).ToList();
                 throw new ErrorOnValidationException(errorMessages);
