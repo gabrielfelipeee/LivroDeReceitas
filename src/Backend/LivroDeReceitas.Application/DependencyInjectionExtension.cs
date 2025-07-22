@@ -4,6 +4,7 @@ using LivroDeReceitas.Application.Services.Cryptography;
 using LivroDeReceitas.Application.UseCases.User.Register;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using LivroDeReceitas.Application.UseCases.Login.DoLogin;
 
 namespace LivroDeReceitas.Application
 {
@@ -30,6 +31,7 @@ namespace LivroDeReceitas.Application
 
         private static void AddUseCases(IServiceCollection services)
         {
+            services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         }
 
