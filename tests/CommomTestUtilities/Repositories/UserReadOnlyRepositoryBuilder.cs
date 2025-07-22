@@ -1,4 +1,6 @@
-﻿using LivroDeReceitas.Domain.Repositories.User;
+﻿using Bogus;
+using LivroDeReceitas.Domain.Entities;
+using LivroDeReceitas.Domain.Repositories.User;
 using Moq;
 
 namespace CommomTestUtilities.Repositories
@@ -17,7 +19,12 @@ namespace CommomTestUtilities.Repositories
         // Configurado para retornar True
         public void ExistActiveUserWithEmail(string email)
         {
-            var emailExist = _repository.Setup(repository => repository.ExistActiveUserWithEmail(email)).ReturnsAsync(true);
+            _repository.Setup(repository => repository.ExistActiveUserWithEmail(email)).ReturnsAsync(true);
+        }
+
+        public void GetByEmailAndPassword(UserEntity userEntity)
+        {
+            _repository.Setup(repository => repository.GetByEmailAndPassword(userEntity.Email, userEntity.Password)).ReturnsAsync(userEntity);
         }
     }
 }

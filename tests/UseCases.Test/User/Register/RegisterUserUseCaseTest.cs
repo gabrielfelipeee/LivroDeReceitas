@@ -3,6 +3,7 @@ using CommomTestUtilities.Mapper;
 using CommomTestUtilities.Repositories;
 using CommomTestUtilities.Requests;
 using LivroDeReceitas.Application.UseCases.User.Register;
+using LivroDeReceitas.Domain.Extensions;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 using Shouldly;
@@ -53,7 +54,7 @@ namespace UseCases.Test.User.Register
         private static RegisterUserUseCase CreateUseCase(string? email = null)
         {
             var readOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
-            if (!string.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(email).IsFalse())
                 readOnlyRepositoryBuilder.ExistActiveUserWithEmail(email);
 
             var writeOnlyRepository = UserWriteOnlyRepositoryBuilder.Build();
