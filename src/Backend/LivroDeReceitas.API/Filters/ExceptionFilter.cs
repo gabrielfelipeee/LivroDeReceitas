@@ -19,10 +19,15 @@ namespace LivroDeReceitas.API.Filters
 
         private static void HandleProjectException(ExceptionContext context)
         {
-            if (context.Exception is ErrorOnValidationException exception)
+            if (context.Exception is InvalidLoginException invalidLoginException)
+            {
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(invalidLoginException.Message));
+            }
+            else if (context.Exception is ErrorOnValidationException validateException)
             {
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                context.Result = new BadRequestObjectResult(new ResponseErrorJson(exception.ErrorMessages));
+                context.Result = new BadRequestObjectResult(new ResponseErrorJson(validateException.ErrorMessages));
             }
         }
 
