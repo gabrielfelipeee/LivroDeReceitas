@@ -6,31 +6,48 @@ namespace LivroDeReceitas.API.Middleware
     public class CultureMiddleware
     {
         private readonly RequestDelegate _next;
-        public CultureMiddleware(RequestDelegate next)
+        private readonly List<string> _portugueseCultures;
+        private readonly List<string> _spanishCultures;
+        private readonly string _defaultCulture;
+
+        public CultureMiddleware(RequestDelegate next, string defaultCulture = "en")
         {
-            _next = next; // Armazena o próximo middleware/controller... para chamar depois
+            _next = next;
+            _defaultCulture = defaultCulture;
+
+            // Pré-calcula as listas para não recriar a cada requisição
+            _portugueseCultures = CultureInfo
+                .GetCultures(CultureTypes.SpecificCultures | CultureTypes.NeutralCultures)
+                .Where(c => c.TwoLetterISOLanguageName == "pt")
+                .Select(c => c.Name.ToLowerInvariant())
+                .ToList();
+
+            _spanishCultures = CultureInfo
+                .GetCultures(CultureTypes.SpecificCultures | CultureTypes.NeutralCultures)
+                .Where(c => c.TwoLetterISOLanguageName == "es")
+                .Select(c => c.Name.ToLowerInvariant())
+                .ToList();
         }
 
         public async Task Invoke(HttpContext context)
         {
-            var culturesThatSpeakPortuguese = CultureInfo.GetCultures(CultureTypes.SpecificCultures | CultureTypes.NeutralCultures)
-                .Where(culture => culture.TwoLetterISOLanguageName == "pt").ToList();
-            var culturesThatSpeakSpanish = CultureInfo.GetCultures(CultureTypes.SpecificCultures | CultureTypes.NeutralCultures)
-                .Where(culture => culture.TwoLetterISOLanguageName == "es").ToList();
+            // Lê o cabeçalho Accept-Language e pega apenas o primeiro idioma puro
+            var requestedCulture = context.Request.Headers.AcceptLanguage
+                .FirstOrDefault()?
+                .Split(',').FirstOrDefault()?.Trim().ToLowerInvariant();
 
-            // Obtém o primeiro valor do cabeçalho Accept-Language (ex: "pt-BR", "en-US") da requisição HTTP
-            var requestedCulture = context.Request.Headers.AcceptLanguage.FirstOrDefault();
+            var culture = new CultureInfo(_defaultCulture);
 
-            var culture = new CultureInfo("en"); // Define a cultura padrão ("en") caso nenhuma cultura válida seja encontrada
-
-            if (string.IsNullOrWhiteSpace(requestedCulture).IsFalse()
-                && culturesThatSpeakPortuguese.Exists(c => c.Name.Equals(requestedCulture)))
+            if (requestedCulture.NotEmpty())
             {
-                culture = new CultureInfo("pt-BR");
-            }
-            else if (culturesThatSpeakSpanish.Exists(c => c.Name.Equals(requestedCulture)))
-            {
-                culture = new CultureInfo("es");
+                if (_portugueseCultures.Contains(requestedCulture) || requestedCulture.StartsWith("pt"))
+                {
+                    culture = new CultureInfo("pt-BR");
+                }
+                else if (_spanishCultures.Contains(requestedCulture) || requestedCulture.StartsWith("es"))
+                {
+                    culture = new CultureInfo("es");
+                }
             }
 
             CultureInfo.CurrentCulture = culture; // Define a cultura atual para formatação de números, datas, moedas etc.
