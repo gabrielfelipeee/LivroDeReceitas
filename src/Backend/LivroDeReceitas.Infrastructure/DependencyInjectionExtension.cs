@@ -3,9 +3,11 @@ using FluentMigrator.Runner;
 using LivroDeReceitas.Domain.Enums;
 using LivroDeReceitas.Domain.Repositories;
 using LivroDeReceitas.Domain.Repositories.User;
+using LivroDeReceitas.Domain.Security.Tokens;
 using LivroDeReceitas.Infrastructure.DataAccess;
 using LivroDeReceitas.Infrastructure.DataAccess.Repository;
 using LivroDeReceitas.Infrastructure.Extensions;
+using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ namespace LivroDeReceitas.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             AddRepositories(services);
+            AddTokens(services, configuration);
 
             // Não precisa adicionar o contexto e nem o FluentMigrator nos testes
             if (configuration.IsUnitTestEnvironment())
@@ -92,6 +95,14 @@ namespace LivroDeReceitas.Infrastructure
                 .WithGlobalConnectionString(connectionString)
                 .ScanIn(Assembly.Load("LivroDeReceitas.Infrastructure")).For.All();
             });
+        }
+
+        private static void AddTokens(IServiceCollection services, IConfiguration configuration)
+        {
+            var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpirationTimeMinutes");
+            var signinKey = configuration.GetValue<string>("Settings:Jwt:SigninKey");
+
+            services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator(expirationTimeMinutes, signinKey!));
         }
     }
 }

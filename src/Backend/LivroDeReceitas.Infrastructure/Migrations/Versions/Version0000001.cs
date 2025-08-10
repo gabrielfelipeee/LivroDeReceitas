@@ -12,7 +12,8 @@ namespace LivroDeReceitas.Infrastructure.Migrations.Versions
             CreateTable("Users")
             .WithColumn("Name").AsString(60).NotNullable()
             .WithColumn("Email").AsString(60).NotNullable()
-           .WithColumn("Password").AsString(2000).NotNullable();
+           .WithColumn("Password").AsString(2000).NotNullable()
+           .WithColumn("UserIdentifier").AsGuid().NotNullable();
         }
     }
 }

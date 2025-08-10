@@ -2,6 +2,7 @@
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
 using LivroDeReceitas.Domain.Repositories.User;
+using LivroDeReceitas.Domain.Security.Tokens;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 
 namespace LivroDeReceitas.Application.UseCases.Login.DoLogin
@@ -10,10 +11,12 @@ namespace LivroDeReceitas.Application.UseCases.Login.DoLogin
     {
         private readonly IUserReadOnlyRepository _userReadOnlyRepository;
         private readonly PasswordEncrypter _passwordEncrypter;
-        public DoLoginUseCase(IUserReadOnlyRepository userReadOnlyRepository, PasswordEncrypter passwordEncrypter)
+        private readonly IAccessTokenGenerator _accessTokenGenerator;
+        public DoLoginUseCase(IUserReadOnlyRepository userReadOnlyRepository, PasswordEncrypter passwordEncrypter, IAccessTokenGenerator accessTokenGenerator)
         {
             _userReadOnlyRepository = userReadOnlyRepository;
             _passwordEncrypter = passwordEncrypter;
+            _accessTokenGenerator = accessTokenGenerator;
         }
 
         public async Task<ResponseRegisteredUserJson> Execute(RequestLoginJson request)
@@ -24,7 +27,11 @@ namespace LivroDeReceitas.Application.UseCases.Login.DoLogin
 
             return new ResponseRegisteredUserJson
             {
-                Name = user.Name
+                Name = user.Name,
+                Tokens = new ResponseTokensJson
+                {
+                    AccessToken = _accessTokenGenerator.Generate(user.UserIdentifier)
+                }
             };
         }
     }
