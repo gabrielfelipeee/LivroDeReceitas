@@ -54,7 +54,7 @@ namespace UseCases.Test.User.Register
         private static RegisterUserUseCase CreateUseCase(string? email = null)
         {
             var readOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
-            if (string.IsNullOrWhiteSpace(email).IsFalse())
+            if (email.NotEmpty())
                 readOnlyRepositoryBuilder.ExistActiveUserWithEmail(email);
 
             var writeOnlyRepository = UserWriteOnlyRepositoryBuilder.Build();
