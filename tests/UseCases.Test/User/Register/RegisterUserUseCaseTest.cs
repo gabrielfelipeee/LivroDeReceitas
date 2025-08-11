@@ -2,11 +2,13 @@
 using CommomTestUtilities.Mapper;
 using CommomTestUtilities.Repositories;
 using CommomTestUtilities.Requests;
+using CommomTestUtilities.Tokens;
 using LivroDeReceitas.Application.UseCases.User.Register;
 using LivroDeReceitas.Domain.Extensions;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 using Shouldly;
+
 
 namespace UseCases.Test.User.Register
 {
@@ -21,8 +23,13 @@ namespace UseCases.Test.User.Register
 
             var result = await useCase.Execute(request);
 
-            result.ShouldNotBeNull();
-            result.Name.ShouldBe(request.Name);
+            result.ShouldSatisfyAllConditions(user =>
+            {
+                user.ShouldNotBeNull();
+                user.Tokens.ShouldNotBeNull();
+                user.Tokens.AccessToken.ShouldNotBeNullOrWhiteSpace();
+                user.Name.ShouldBe(request.Name);
+            });
         }
 
         [Fact]
@@ -59,10 +66,11 @@ namespace UseCases.Test.User.Register
 
             var writeOnlyRepository = UserWriteOnlyRepositoryBuilder.Build();
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
+            var accessTokenGenerator = JwtTokenGeneratorBuilder.Build();
             var unitOfWork = UnitOfWorkBuilder.Build();
             var mapper = MapperBuilder.Build();
 
-            return new RegisterUserUseCase(readOnlyRepositoryBuilder.Build(), writeOnlyRepository, unitOfWork, passwordEncrypter, mapper);
+            return new RegisterUserUseCase(readOnlyRepositoryBuilder.Build(), writeOnlyRepository, unitOfWork, passwordEncrypter, accessTokenGenerator, mapper);
         }
     }
 }

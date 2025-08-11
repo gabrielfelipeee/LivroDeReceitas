@@ -38,6 +38,7 @@ namespace WebApi.Test.User.Register
                 name.ShouldNotBeNull();
                 name.ShouldBe(request.Name);
             });
+            responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldNotBeNullOrWhiteSpace();
         }
 
 

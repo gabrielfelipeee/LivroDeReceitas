@@ -44,9 +44,10 @@ namespace WebApi.Test.Login.DoLogin
 
             responseData.RootElement.GetProperty("name").GetString().ShouldSatisfyAllConditions(name =>
             {
-                name.ShouldNotBeNull();
+                name.ShouldNotBeNullOrWhiteSpace();
                 name.ShouldBe(_name);
             });
+            responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldNotBeNullOrWhiteSpace();
         }
 
 

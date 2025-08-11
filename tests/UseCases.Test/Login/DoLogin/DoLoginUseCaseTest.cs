@@ -2,6 +2,7 @@
 using CommomTestUtilities.Entities;
 using CommomTestUtilities.Repositories;
 using CommomTestUtilities.Requests;
+using CommomTestUtilities.Tokens;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Domain.Entities;
@@ -29,7 +30,8 @@ namespace UseCases.Test.Login.DoLogin
             result.ShouldSatisfyAllConditions(user =>
             {
                 user.ShouldNotBeNull();
-                user.Name.ShouldNotBeNullOrWhiteSpace();
+                user.Tokens.ShouldNotBeNull();
+                user.Tokens.AccessToken.ShouldNotBeNullOrWhiteSpace();
                 user.Name.ShouldBe(userEntity.Name);
             });
 
@@ -50,12 +52,13 @@ namespace UseCases.Test.Login.DoLogin
         private static DoLoginUseCase CreateUseCase(UserEntity? userEntity = null)
         {
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
+            var accessTokenGenerator = JwtTokenGeneratorBuilder.Build();
 
             var readOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
             if (userEntity is not null)
                 readOnlyRepositoryBuilder.GetByEmailAndPassword(userEntity);
 
-            return new DoLoginUseCase(readOnlyRepositoryBuilder.Build(), passwordEncrypter);
+            return new DoLoginUseCase(readOnlyRepositoryBuilder.Build(), passwordEncrypter, accessTokenGenerator);
         }
     }
 }
