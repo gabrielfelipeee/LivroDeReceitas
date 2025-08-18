@@ -1,10 +1,12 @@
-﻿using LivroDeReceitas.Application.UseCases.User.Register;
+﻿using LivroDeReceitas.API.Attributes;
+using LivroDeReceitas.Application.UseCases.User.Register;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LivroDeReceitas.API.Controllers
 {
+    [AuthenticatedUser()]
     public class UserController : LivroDeReceitasController
     {
         [HttpPost]

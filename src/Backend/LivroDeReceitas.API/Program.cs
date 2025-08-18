@@ -5,14 +5,68 @@ using LivroDeReceitas.Application;
 using LivroDeReceitas.Infrastructure;
 using LivroDeReceitas.Infrastructure.Extensions;
 using LivroDeReceitas.Infrastructure.Migrations;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(options =>options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
-builder.Services.AddMvc(options => options.Filters.Add<ExceptionFilter>());
 
+// Adiciona e configura o Swagger para a API
+builder.Services.AddSwaggerGen(options =>
+{
+    // Define o esquema de segurança chamado "Bearer" (para autenticação via JWT)
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        // Descrição que será exibida na UI do Swagger para orientar o usuário
+        Description = "JWT Authorization",
+
+        // Nome do cabeçalho onde o token deve ser enviado (Authorization)
+        Name = "Authorization",
+
+        // Informa que o token deve ser enviado no Header da requisição
+        In = ParameterLocation.Header,
+
+        // Define o tipo de esquema de segurança como ApiKey (usado aqui para tokens JWT)
+        Type = SecuritySchemeType.ApiKey,
+
+        // Esquema que será utilizado (Bearer)
+        Scheme = "Bearer"
+    });
+
+    // Define os requisitos de segurança que devem ser aplicados às requisições
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            // Referência ao esquema de segurança definido acima
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    // Diz que a referência é para um SecurityScheme
+                    Type = ReferenceType.SecurityScheme,
+
+                    // O Id do esquema definido anteriormente ("Bearer")
+                    Id = "Bearer"
+                },
+
+                // O esquema que será usado, aqui colocado como "oauth2"
+                Scheme = "oauth2",
+
+                // Nome do esquema
+                Name = "Bearer",
+
+                // Onde o token será informado (no Header)
+                In = ParameterLocation.Header
+            },
+
+            // Lista de escopos exigidos (nesse caso, vazia → qualquer token válido serve)
+            new List<string>()
+        }
+    });
+});
+
+builder.Services.AddMvc(options => options.Filters.Add<ExceptionFilter>());
 
 // Métodos de extensão
 builder.Services.AddApplication(builder.Configuration);

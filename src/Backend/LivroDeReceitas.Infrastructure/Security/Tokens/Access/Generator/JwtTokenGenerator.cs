@@ -1,12 +1,11 @@
 ﻿using LivroDeReceitas.Domain.Security.Tokens;
 using Microsoft.IdentityModel.Tokens; 
 using System.IdentityModel.Tokens.Jwt;      
-using System.Security.Claims;         
-using System.Text;                            
+using System.Security.Claims;                                 
 
 namespace LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator
 {
-    public class JwtTokenGenerator : IAccessTokenGenerator
+    public class JwtTokenGenerator : JwtTokenHandler, IAccessTokenGenerator
     {
         private readonly uint _expirationTimeMinutes; // Tempo de expiração do token (em minutos)
         private readonly string _signinKey;           // Chave secreta usada para assinar o token
@@ -34,7 +33,7 @@ namespace LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator
                 Expires = DateTime.UtcNow.AddMinutes(_expirationTimeMinutes),
 
                 // Define a credencial de assinatura com a chave secreta e o algoritmo HMAC-SHA256
-                SigningCredentials = new SigningCredentials(SecurityKey(), SecurityAlgorithms.HmacSha256Signature),
+                SigningCredentials = new SigningCredentials(SecurityKey(_signinKey), SecurityAlgorithms.HmacSha256Signature),
 
                 // Define quem é o "dono" do token (as claims)
                 Subject = new ClaimsIdentity(claims)
@@ -48,17 +47,6 @@ namespace LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator
 
             // Converte o token para string no formato JWT
             return tokenHandler.WriteToken(securityToken);
-        }
-
-
-        // Método auxiliar para gerar a chave simétrica usada na assinatura
-        private SymmetricSecurityKey SecurityKey()
-        {
-            // Converte a chave secreta em um array de bytes (UTF-8)
-            var bytes = Encoding.UTF8.GetBytes(_signinKey);
-
-            // Cria e retorna a chave simétrica
-            return new SymmetricSecurityKey(bytes);
         }
     }
 }

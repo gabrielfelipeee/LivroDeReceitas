@@ -8,6 +8,7 @@ using LivroDeReceitas.Infrastructure.DataAccess;
 using LivroDeReceitas.Infrastructure.DataAccess.Repository;
 using LivroDeReceitas.Infrastructure.Extensions;
 using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator;
+using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Validator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -103,6 +104,7 @@ namespace LivroDeReceitas.Infrastructure
             var signinKey = configuration.GetValue<string>("Settings:Jwt:SigninKey");
 
             services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator(expirationTimeMinutes, signinKey!));
+            services.AddScoped<IAccessTokenValidator>(option => new JwtTokenValidator(signinKey!));
         }
     }
 }

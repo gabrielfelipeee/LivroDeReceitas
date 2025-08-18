@@ -138,4 +138,10 @@
   <data name="EMAIL_OR_PASSWORD_INVALID" xml:space="preserve">
     <value>Correo electrónico y/o contraseña no válidos</value>
   </data>
+  <data name="NO_TOKEN" xml:space="preserve">
+    <value>La solicitud no tiene token</value>
+  </data>
+  <data name="USER_WITHOUT_PERMISSION_ACCESS_RESOURCE" xml:space="preserve">
+    <value>No tienes permiso para acceder a este recurso</value>
+  </data>
 </root>
