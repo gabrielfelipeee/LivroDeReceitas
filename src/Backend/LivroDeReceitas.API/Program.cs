@@ -1,7 +1,9 @@
 using LivroDeReceitas.API.Converters;
 using LivroDeReceitas.API.Filters;
 using LivroDeReceitas.API.Middleware;
+using LivroDeReceitas.API.Token;
 using LivroDeReceitas.Application;
+using LivroDeReceitas.Domain.Security.Tokens;
 using LivroDeReceitas.Infrastructure;
 using LivroDeReceitas.Infrastructure.Extensions;
 using LivroDeReceitas.Infrastructure.Migrations;
@@ -71,9 +73,11 @@ builder.Services.AddMvc(options => options.Filters.Add<ExceptionFilter>());
 // Métodos de extensão
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
-
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

@@ -5,6 +5,7 @@ using LivroDeReceitas.Application.UseCases.User.Register;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
+using LivroDeReceitas.Application.UseCases.User.Profile;
 
 namespace LivroDeReceitas.Application
 {
@@ -33,6 +34,7 @@ namespace LivroDeReceitas.Application
         {
             services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
+            services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
         }
 
         private static void AddPasswordEncrypter(IServiceCollection services, IConfiguration configuration)

@@ -1,4 +1,5 @@
 ﻿using LivroDeReceitas.API.Attributes;
+using LivroDeReceitas.Application.UseCases.User.Profile;
 using LivroDeReceitas.Application.UseCases.User.Register;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LivroDeReceitas.API.Controllers
 {
-    [AuthenticatedUser()]
     public class UserController : LivroDeReceitasController
     {
         [HttpPost]
@@ -17,6 +17,15 @@ namespace LivroDeReceitas.API.Controllers
         {
             var result = await useCase.Execute(request);
             return Created(string.Empty, result);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ResponseUserProfileJson), StatusCodes.Status200OK)]
+        [AuthenticatedUser]
+        public async Task<IActionResult> GetUserProfile([FromServices] IGetUserProfileUseCase useCase)
+        {
+            var result = await useCase.Execute();
+            return Ok(result);
         }
     }
 }

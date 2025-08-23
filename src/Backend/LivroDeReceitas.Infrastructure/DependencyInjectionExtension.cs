@@ -4,11 +4,13 @@ using LivroDeReceitas.Domain.Enums;
 using LivroDeReceitas.Domain.Repositories;
 using LivroDeReceitas.Domain.Repositories.User;
 using LivroDeReceitas.Domain.Security.Tokens;
+using LivroDeReceitas.Domain.Services.LoggedUser;
 using LivroDeReceitas.Infrastructure.DataAccess;
 using LivroDeReceitas.Infrastructure.DataAccess.Repository;
 using LivroDeReceitas.Infrastructure.Extensions;
 using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator;
 using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Validator;
+using LivroDeReceitas.Infrastructure.Services.LoggedUser;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,7 @@ namespace LivroDeReceitas.Infrastructure
         {
             AddRepositories(services);
             AddTokens(services, configuration);
+            AddLoggedUser(services);
 
             // Não precisa adicionar o contexto e nem o FluentMigrator nos testes
             if (configuration.IsUnitTestEnvironment())
@@ -106,5 +109,7 @@ namespace LivroDeReceitas.Infrastructure
             services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator(expirationTimeMinutes, signinKey!));
             services.AddScoped<IAccessTokenValidator>(option => new JwtTokenValidator(signinKey!));
         }
+
+        private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
     }
 }
