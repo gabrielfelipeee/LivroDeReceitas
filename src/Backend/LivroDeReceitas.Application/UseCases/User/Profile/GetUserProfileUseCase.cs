@@ -4,7 +4,7 @@ using LivroDeReceitas.Domain.Services.LoggedUser;
 
 namespace LivroDeReceitas.Application.UseCases.User.Profile
 {
-    internal class GetUserProfileUseCase : IGetUserProfileUseCase
+    public class GetUserProfileUseCase : IGetUserProfileUseCase
     {
         private readonly ILoggedUser _loggedUser;
         private readonly IMapper _mapper;

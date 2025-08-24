@@ -45,6 +45,7 @@ namespace WebApi.Test
                 });
         }
 
+        public Guid GetUserIdentifier() => _userEntity.UserIdentifier;
         public string GetEmail() => _userEntity.Email;
         public string GetName() => _userEntity.Name;
         public string GetPassword() => _password;

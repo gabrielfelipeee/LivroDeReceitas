@@ -10,7 +10,7 @@ namespace WebApi.Test.User.Register
 {
     public class RegisterUserTest : LivroDeReceitasClassFixture
     {
-        private readonly string method = "user";
+        private readonly string METHOD = "user";
 
         public RegisterUserTest(CustomWebApplicationFactory factory) : base(factory) { }
 
@@ -21,7 +21,7 @@ namespace WebApi.Test.User.Register
             var request = RequestRegisterUserJsonBuilder.Build();
 
             // Envia a requisição HTTP POST para o endpoint "User"
-            var response = await DoPost(method, request);
+            var response = await DoPost(METHOD, request);
 
             // Verifica se o status HTTP retornado é 201 Created
             response.StatusCode.ShouldBe(HttpStatusCode.Created);
@@ -35,7 +35,7 @@ namespace WebApi.Test.User.Register
             // Verifica se a propriedade "name" existe e corresponde ao valor enviado na requisição
             responseData.RootElement.GetProperty("name").GetString().ShouldSatisfyAllConditions(name =>
             {
-                name.ShouldNotBeNull();
+                name.ShouldNotBeNullOrWhiteSpace();
                 name.ShouldBe(request.Name);
             });
             responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldNotBeNullOrWhiteSpace();
@@ -49,7 +49,7 @@ namespace WebApi.Test.User.Register
             var request = RequestRegisterUserJsonBuilder.Build();
             request.Name = string.Empty;
 
-            var response = await DoPost(method, request, culture);
+            var response = await DoPost(METHOD, request, culture);
 
             response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
