@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LivroDeReceitas.Infrastructure.DataAccess.Repository
 {
-    public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository
+    public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository, IUserUpdateOnlyRepository
     {
         private readonly LivroDeReceitasDbContext _dbContext;
         public UserRepository(LivroDeReceitasDbContext dbContext) => _dbContext = dbContext;
@@ -23,5 +23,9 @@ namespace LivroDeReceitas.Infrastructure.DataAccess.Repository
                 .AsNoTracking()
                 .FirstOrDefaultAsync(user => user.Active && user.Email.Equals(email) && user.Password.Equals(password));
         }
+
+        public async Task<UserEntity> GetById(long id) => await _dbContext.Users.FirstAsync(user => user.Id == id);
+
+        public void Update(UserEntity userEntity) => _dbContext.Users.Update(userEntity);
     }
 }

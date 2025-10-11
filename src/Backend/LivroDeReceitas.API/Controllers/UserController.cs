@@ -1,6 +1,7 @@
 ﻿using LivroDeReceitas.API.Attributes;
 using LivroDeReceitas.Application.UseCases.User.Profile;
 using LivroDeReceitas.Application.UseCases.User.Register;
+using LivroDeReceitas.Application.UseCases.User.Update;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,16 @@ namespace LivroDeReceitas.API.Controllers
         {
             var result = await useCase.Execute();
             return Ok(result);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        [AuthenticatedUser]
+        public async Task<IActionResult> Update([FromServices] IUpdateUserUseCase useCase, [FromBody] RequestUpdateUserJson request)
+        {
+            await useCase.Execute(request);
+            return NoContent();
         }
     }
 }
