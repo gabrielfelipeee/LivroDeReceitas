@@ -1,12 +1,13 @@
+﻿using LivroDeReceitas.Domain.Security.Cryptography;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LivroDeReceitas.Application.Services.Cryptography
+namespace LivroDeReceitas.Infrastructure.Security.Cryptography
 {
-    public class PasswordEncrypter
+    public class Sha512Encripter : IPasswordEncripter
     {
         private readonly string _additionalKey;
-        public PasswordEncrypter(string additionalKey) => _additionalKey = additionalKey;
+        public Sha512Encripter(string additionalKey) => _additionalKey = additionalKey;
 
 
         // Método público que recebe uma senha em texto  e retorna seu hash como string hexadecimal

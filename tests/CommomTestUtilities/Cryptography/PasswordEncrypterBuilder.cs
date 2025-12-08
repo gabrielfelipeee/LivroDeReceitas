@@ -1,9 +1,10 @@
-﻿using LivroDeReceitas.Application.Services.Cryptography;
+﻿using LivroDeReceitas.Domain.Security.Cryptography;
+using LivroDeReceitas.Infrastructure.Security.Cryptography;
 
 namespace CommomTestUtilities.Cryptography
 {
     public class PasswordEncrypterBuilder
     {
-        public static PasswordEncrypter Build() => new PasswordEncrypter("abc123");
+        public static IPasswordEncripter Build() => new Sha512Encripter("abc123");
     }
 }

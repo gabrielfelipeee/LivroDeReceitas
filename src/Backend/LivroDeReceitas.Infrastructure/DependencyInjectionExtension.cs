@@ -1,19 +1,21 @@
-using System.Reflection;
 using FluentMigrator.Runner;
 using LivroDeReceitas.Domain.Enums;
 using LivroDeReceitas.Domain.Repositories;
 using LivroDeReceitas.Domain.Repositories.User;
+using LivroDeReceitas.Domain.Security.Cryptography;
 using LivroDeReceitas.Domain.Security.Tokens;
 using LivroDeReceitas.Domain.Services.LoggedUser;
 using LivroDeReceitas.Infrastructure.DataAccess;
 using LivroDeReceitas.Infrastructure.DataAccess.Repository;
 using LivroDeReceitas.Infrastructure.Extensions;
+using LivroDeReceitas.Infrastructure.Security.Cryptography;
 using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator;
 using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Validator;
 using LivroDeReceitas.Infrastructure.Services.LoggedUser;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace LivroDeReceitas.Infrastructure
 {
@@ -24,6 +26,7 @@ namespace LivroDeReceitas.Infrastructure
             AddRepositories(services);
             AddTokens(services, configuration);
             AddLoggedUser(services);
+            AddPasswordEncripter(services, configuration);
 
             // Não precisa adicionar o contexto e nem o FluentMigrator nos testes
             if (configuration.IsUnitTestEnvironment())
@@ -112,5 +115,11 @@ namespace LivroDeReceitas.Infrastructure
         }
 
         private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
+
+        private static void AddPasswordEncripter(IServiceCollection services, IConfiguration configuration)
+        {
+            var additionalKey = configuration.GetValue<string>("Settings:Password:additionalKey");
+            services.AddScoped<IPasswordEncripter>(option => new Sha512Encripter(additionalKey!));
+        }
     }
 }

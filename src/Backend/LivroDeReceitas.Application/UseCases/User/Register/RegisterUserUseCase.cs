@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using LivroDeReceitas.Application.Services.Cryptography;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
 using LivroDeReceitas.Domain.Entities;
 using LivroDeReceitas.Domain.Extensions;
 using LivroDeReceitas.Domain.Repositories;
 using LivroDeReceitas.Domain.Repositories.User;
+using LivroDeReceitas.Domain.Security.Cryptography;
 using LivroDeReceitas.Domain.Security.Tokens;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
@@ -17,7 +17,7 @@ namespace LivroDeReceitas.Application.UseCases.User.Register
         private readonly IUserReadOnlyRepository _userReadOnlyRepository;
         private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly PasswordEncrypter _passwordEncrypter;
+        private readonly IPasswordEncripter _passwordEncripter;
         private readonly IAccessTokenGenerator _accessTokenGenerator;
         private readonly IMapper _mapper;
 
@@ -25,14 +25,14 @@ namespace LivroDeReceitas.Application.UseCases.User.Register
             IUserReadOnlyRepository userReadOnlyRepository,
             IUserWriteOnlyRepository userWriteOnlyRepository,
             IUnitOfWork unitOfWork,
-            PasswordEncrypter passwordEncrypter,
+            IPasswordEncripter passwordEncripter,
             IAccessTokenGenerator accessTokenGenerator,
             IMapper mapper)
         {
             _userReadOnlyRepository = userReadOnlyRepository;
             _userWriteOnlyRepository = userWriteOnlyRepository;
             _unitOfWork = unitOfWork;
-            _passwordEncrypter = passwordEncrypter;
+            _passwordEncripter = passwordEncripter;
             _accessTokenGenerator = accessTokenGenerator;
             _mapper = mapper;
         }
@@ -44,7 +44,7 @@ namespace LivroDeReceitas.Application.UseCases.User.Register
 
             //                         Destino  | Fonte dos dados
             var user = _mapper.Map<UserEntity>(request);
-            user.Password = _passwordEncrypter.Encrypt(request.Password);
+            user.Password = _passwordEncripter.Encrypt(request.Password);
             user.UserIdentifier = Guid.NewGuid();
 
             await _userWriteOnlyRepository.Add(user);

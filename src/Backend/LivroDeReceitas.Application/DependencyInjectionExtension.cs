@@ -1,6 +1,5 @@
 using AutoMapper;
 using LivroDeReceitas.Application.Services.AutoMapper;
-using LivroDeReceitas.Application.Services.Cryptography;
 using LivroDeReceitas.Application.UseCases.User.Register;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +18,6 @@ namespace LivroDeReceitas.Application
         {
             AddAutoMapper(services);
             AddUseCases(services);
-            AddPasswordEncrypter(services, configuration);
         }
         private static void AddAutoMapper(IServiceCollection services)
         {
@@ -37,12 +35,6 @@ namespace LivroDeReceitas.Application
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
             services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
-        }
-
-        private static void AddPasswordEncrypter(IServiceCollection services, IConfiguration configuration)
-        {
-            var additionalKey = configuration.GetValue<string>("Settings:Password:additionalKey");
-            services.AddScoped(option => new PasswordEncrypter(additionalKey!));
         }
     }
 }
