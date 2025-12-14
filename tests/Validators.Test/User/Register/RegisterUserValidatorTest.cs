@@ -66,9 +66,8 @@ namespace Validators.Test.User.Register
             result.Errors.First().ErrorMessage.ShouldBe(ResourceMessagesException.EMAIL_INVALID);
         }
 
-        // O teste será executado 6 vezes, com os valores 0, 1, 2, 3, 4 e 5 sendo passados como argumento para o parâmetro passwordLength
+        // O teste será executado 6 vezes, com os valores 1, 2, 3, 4 e 5 sendo passados como argumento para o parâmetro passwordLength
         [Theory]
-        [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
@@ -83,7 +82,22 @@ namespace Validators.Test.User.Register
 
             result.IsValid.ShouldBeFalse();
             result.Errors.Count.ShouldBe(1);
-            result.Errors.First().ErrorMessage.ShouldBe(ResourceMessagesException.PASSWORD_MUST_BE_LONGER_THAN_6_CHARACTERS);
+            result.Errors.First().ErrorMessage.ShouldBe(ResourceMessagesException.INVALID_PASSWORD);
+        }
+
+        [Fact]
+        public void Error_PasswordEmpty()
+        {
+            var validator = new RegisterUserValidator();
+
+            var request = RequestRegisterUserJsonBuilder.Build();
+            request.Password = string.Empty;
+
+            var result = validator.Validate(request);
+
+            result.IsValid.ShouldBeFalse();
+            result.Errors.Count.ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe(ResourceMessagesException.PASSWORD_EMPTY);
         }
     }
 }
