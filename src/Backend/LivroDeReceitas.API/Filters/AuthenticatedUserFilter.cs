@@ -34,7 +34,7 @@ namespace LivroDeReceitas.API.Filters
                     throw new LivroDeReceitasException(ResourceMessagesException.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE);
             }
             // Caso o token está expirado
-            catch (SecurityTokenExpiredException ex)
+            catch (SecurityTokenExpiredException)
             {
                 context.Result = new UnauthorizedObjectResult(new ResponseErrorJson("TokenIsExpired")
                 {

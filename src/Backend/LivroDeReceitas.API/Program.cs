@@ -9,16 +9,18 @@ using LivroDeReceitas.Infrastructure.Extensions;
 using LivroDeReceitas.Infrastructure.Migrations;
 using Microsoft.OpenApi.Models;
 
+const string AUTHENTICATION_TYPE = "Bearer";
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddJsonOptions(options =>options.JsonSerializerOptions.Converters.Add(new StringConverter()));
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 builder.Services.AddOpenApi();
 
 // Adiciona e configura o Swagger para a API
 builder.Services.AddSwaggerGen(options =>
 {
     // Define o esquema de segurança chamado "Bearer" (para autenticação via JWT)
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition(AUTHENTICATION_TYPE, new OpenApiSecurityScheme
     {
         // Descrição que será exibida na UI do Swagger para orientar o usuário
         Description = "JWT Authorization",
@@ -33,7 +35,7 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.ApiKey,
 
         // Esquema que será utilizado (Bearer)
-        Scheme = "Bearer"
+        Scheme = AUTHENTICATION_TYPE
     });
 
     // Define os requisitos de segurança que devem ser aplicados às requisições
@@ -49,14 +51,14 @@ builder.Services.AddSwaggerGen(options =>
                     Type = ReferenceType.SecurityScheme,
 
                     // O Id do esquema definido anteriormente ("Bearer")
-                    Id = "Bearer"
+                    Id = AUTHENTICATION_TYPE
                 },
 
                 // O esquema que será usado, aqui colocado como "oauth2"
                 Scheme = "oauth2",
 
                 // Nome do esquema
-                Name = "Bearer",
+                Name = AUTHENTICATION_TYPE,
 
                 // Onde o token será informado (no Header)
                 In = ParameterLocation.Header

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LivroDeReceitas.API.Attributes
 {
     // Define um atributo customizado
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)] // Este atributo só pode ser aplicado em: classes e Métodos
     public class AuthenticatedUserAttribute : TypeFilterAttribute
     {
         // "base(typeof(AuthenticatedUserFilter))" indica que este atributo usará o filtro AuthenticatedUserFilter
