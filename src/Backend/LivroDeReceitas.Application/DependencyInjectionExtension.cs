@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
 using LivroDeReceitas.Application.UseCases.User.Profile;
 using LivroDeReceitas.Application.UseCases.User.Update;
+using LivroDeReceitas.Application.UseCases.User.ChangePassword;
 
 namespace LivroDeReceitas.Application
 {
@@ -35,6 +36,7 @@ namespace LivroDeReceitas.Application
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
             services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+            services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
         }
     }
 }

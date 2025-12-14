@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using LivroDeReceitas.Application.SharedValidators;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Exceptions;
 
@@ -16,9 +17,7 @@ namespace LivroDeReceitas.Application.UseCases.User.Register
                 .NotEmpty()
                 .WithMessage(ResourceMessagesException.EMAIL_EMPTY);
 
-            RuleFor(user => user.Password.Length)
-                .GreaterThanOrEqualTo(6) // Senha deve ser maior ou igual a 6 caracteres
-                .WithMessage(ResourceMessagesException.PASSWORD_MUST_BE_LONGER_THAN_6_CHARACTERS);
+            RuleFor(user => user.Password).SetValidator(new PasswordValidator<RequestRegisterUserJson>());
 
             // Para evitar que o a mensagem de email inválido seja enviado quando o email for nulo ou vazio
             When(user => !string.IsNullOrEmpty(user.Email), () =>

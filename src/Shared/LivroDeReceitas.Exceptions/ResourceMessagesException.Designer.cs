@@ -97,6 +97,15 @@ namespace LivroDeReceitas.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a The password must be longer than 6 characters.
+        /// </summary>
+        public static string INVALID_PASSWORD {
+            get {
+                return ResourceManager.GetString("INVALID_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a The name connot be empty.
         /// </summary>
         public static string NAME_EMPTY {
@@ -115,11 +124,20 @@ namespace LivroDeReceitas.Exceptions {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a The password must be longer than 6 characters.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a The password entered is different from the current password.
         /// </summary>
-        public static string PASSWORD_MUST_BE_LONGER_THAN_6_CHARACTERS {
+        public static string PASSWORD_DIFFERENT_CURRENT_PASSWORD {
             get {
-                return ResourceManager.GetString("PASSWORD_MUST_BE_LONGER_THAN_6_CHARACTERS", resourceCulture);
+                return ResourceManager.GetString("PASSWORD_DIFFERENT_CURRENT_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a The password cannot be empty.
+        /// </summary>
+        public static string PASSWORD_EMPTY {
+            get {
+                return ResourceManager.GetString("PASSWORD_EMPTY", resourceCulture);
             }
         }
         
