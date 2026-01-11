@@ -1,12 +1,13 @@
 using FluentMigrator.Runner;
 using LivroDeReceitas.Domain.Enums;
 using LivroDeReceitas.Domain.Repositories;
+using LivroDeReceitas.Domain.Repositories.Recipe;
 using LivroDeReceitas.Domain.Repositories.User;
 using LivroDeReceitas.Domain.Security.Cryptography;
 using LivroDeReceitas.Domain.Security.Tokens;
 using LivroDeReceitas.Domain.Services.LoggedUser;
 using LivroDeReceitas.Infrastructure.DataAccess;
-using LivroDeReceitas.Infrastructure.DataAccess.Repository;
+using LivroDeReceitas.Infrastructure.DataAccess.Repositories;
 using LivroDeReceitas.Infrastructure.Extensions;
 using LivroDeReceitas.Infrastructure.Security.Cryptography;
 using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator;
@@ -69,9 +70,12 @@ namespace LivroDeReceitas.Infrastructure
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
             services.AddScoped<IUserReadOnlyRepository, UserRepository>();
             services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
+
+            services.AddScoped<IRecipeWriteOnlyRepository, RecipeRepository>();
         }
 
 

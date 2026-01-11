@@ -1,12 +1,13 @@
 using AutoMapper;
 using LivroDeReceitas.Application.Services.AutoMapper;
-using LivroDeReceitas.Application.UseCases.User.Register;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
-using LivroDeReceitas.Application.UseCases.User.Profile;
-using LivroDeReceitas.Application.UseCases.User.Update;
+using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Application.UseCases.User.ChangePassword;
+using LivroDeReceitas.Application.UseCases.User.Profile;
+using LivroDeReceitas.Application.UseCases.User.Register;
+using LivroDeReceitas.Application.UseCases.User.Update;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LivroDeReceitas.Application
 {
@@ -37,6 +38,8 @@ namespace LivroDeReceitas.Application
             services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
             services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
+
+            services.AddScoped<IRegisterRecipeUseCase, RegisterRecipeUseCase>();
         }
     }
 }

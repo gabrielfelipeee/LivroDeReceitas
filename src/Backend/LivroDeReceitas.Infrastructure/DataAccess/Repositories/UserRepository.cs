@@ -2,7 +2,7 @@ using LivroDeReceitas.Domain.Entities;
 using LivroDeReceitas.Domain.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 
-namespace LivroDeReceitas.Infrastructure.DataAccess.Repository
+namespace LivroDeReceitas.Infrastructure.DataAccess.Repositories
 {
     public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository, IUserUpdateOnlyRepository
     {
