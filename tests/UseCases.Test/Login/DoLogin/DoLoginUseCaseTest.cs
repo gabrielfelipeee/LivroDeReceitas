@@ -49,7 +49,7 @@ namespace UseCases.Test.Login.DoLogin
         }
 
 
-        private static DoLoginUseCase CreateUseCase(UserEntity? userEntity = null)
+        private static DoLoginUseCase CreateUseCase(LivroDeReceitas.Domain.Entities.User? userEntity = null)
         {
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
             var accessTokenGenerator = JwtTokenGeneratorBuilder.Build();

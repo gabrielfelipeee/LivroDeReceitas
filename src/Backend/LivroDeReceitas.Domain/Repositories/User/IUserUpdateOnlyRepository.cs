@@ -4,7 +4,7 @@ namespace LivroDeReceitas.Domain.Repositories.User
 {
     public interface IUserUpdateOnlyRepository
     {
-        public Task<UserEntity> GetById(long id);
-        public void Update(UserEntity userEntity);
+        public Task<Entities.User> GetById(long id);
+        public void Update(Entities.User userEntity);
     }
 }

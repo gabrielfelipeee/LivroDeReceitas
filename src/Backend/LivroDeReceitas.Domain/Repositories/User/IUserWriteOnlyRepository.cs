@@ -4,6 +4,6 @@ namespace LivroDeReceitas.Domain.Repositories.User
 {
     public interface IUserWriteOnlyRepository
     {
-        public Task Add(UserEntity userEntity);
+        public Task Add(Entities.User userEntity);
     }
 }

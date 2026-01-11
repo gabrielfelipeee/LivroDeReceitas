@@ -22,7 +22,7 @@ namespace CommomTestUtilities.Repositories
             _repository.Setup(repository => repository.ExistActiveUserWithEmail(email)).ReturnsAsync(true);
         }
 
-        public void GetByEmailAndPassword(UserEntity userEntity)
+        public void GetByEmailAndPassword(User userEntity)
         {
             _repository.Setup(repository => repository.GetByEmailAndPassword(userEntity.Email, userEntity.Password)).ReturnsAsync(userEntity);
         }

@@ -26,7 +26,7 @@ namespace UseCases.Test.User.Profile
             });
         }
 
-        private static GetUserProfileUseCase CreateUseCase(UserEntity userEntity)
+        private static GetUserProfileUseCase CreateUseCase(LivroDeReceitas.Domain.Entities.User userEntity)
         {
             var mapper = MapperBuilder.Build();
             var loggedUser = LoggedUserBuilder.Build(userEntity);

@@ -68,7 +68,7 @@ namespace UseCases.Test.User.Update
             userEntity.Email.ShouldNotBe(request.Email);
         }
 
-        private static UpdateUserUseCase CreateUseCase(UserEntity userEntity, string? email = null)
+        private static UpdateUserUseCase CreateUseCase(LivroDeReceitas.Domain.Entities.User userEntity, string? email = null)
         {
             var readOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
             if (email.NotEmpty())

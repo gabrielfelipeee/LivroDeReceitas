@@ -16,14 +16,14 @@ namespace LivroDeReceitas.Application.Services.AutoMapper
         private void RequestToDomain()
         {
             //           Fonte dos dados      |  Destino
-            CreateMap<RequestRegisterUserJson, UserEntity>()
+            CreateMap<RequestRegisterUserJson, User>()
                 .ForMember(user => user.Password, opt => opt.Ignore()); // Vai ignorar o mapeamento de Password (pois será criptografada)
         }
 
         private void DomainToResponse()
         {
             //       Fonte dos dados      |  Destino
-            CreateMap<UserEntity, ResponseUserProfileJson>();
+            CreateMap<User, ResponseUserProfileJson>();
         }
     }
 }

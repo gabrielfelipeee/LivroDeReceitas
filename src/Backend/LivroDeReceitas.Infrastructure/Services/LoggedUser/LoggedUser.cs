@@ -18,7 +18,7 @@ namespace LivroDeReceitas.Infrastructure.Services.LoggedUser
             _tokenProvider = tokenProvider;
         }
 
-        public async Task<UserEntity> User()
+        public async Task<User> User()
         {
             var token = _tokenProvider.Value();
 

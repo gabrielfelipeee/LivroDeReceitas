@@ -6,7 +6,7 @@ namespace CommomTestUtilities.LoggedUser
 {
     public class LoggedUserBuilder
     {
-        public static ILoggedUser Build(UserEntity userEntity)
+        public static ILoggedUser Build(User userEntity)
         {
             // Cria um mock da interface ILoggedUser
             var mock = new Mock<ILoggedUser>();

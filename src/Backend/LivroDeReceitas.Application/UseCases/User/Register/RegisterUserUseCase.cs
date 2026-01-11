@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
-using LivroDeReceitas.Domain.Entities;
 using LivroDeReceitas.Domain.Extensions;
 using LivroDeReceitas.Domain.Repositories;
 using LivroDeReceitas.Domain.Repositories.User;
@@ -43,7 +42,7 @@ namespace LivroDeReceitas.Application.UseCases.User.Register
             await Validate(request);
 
             //                         Destino  | Fonte dos dados
-            var user = _mapper.Map<UserEntity>(request);
+            var user = _mapper.Map<Domain.Entities.User>(request);
             user.Password = _passwordEncripter.Encrypt(request.Password);
             user.UserIdentifier = Guid.NewGuid();
 

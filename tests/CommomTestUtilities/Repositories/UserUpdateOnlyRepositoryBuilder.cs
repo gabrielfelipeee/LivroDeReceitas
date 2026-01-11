@@ -10,7 +10,7 @@ namespace CommomTestUtilities.Repositories
 
         public UserUpdateOnlyRepositoryBuilder() => _repository = new Mock<IUserUpdateOnlyRepository>();
 
-        public UserUpdateOnlyRepositoryBuilder GetById(UserEntity userEntity)
+        public UserUpdateOnlyRepositoryBuilder GetById(User userEntity)
         {
             _repository.Setup(x=> x.GetById(userEntity.Id)).ReturnsAsync(userEntity);
 

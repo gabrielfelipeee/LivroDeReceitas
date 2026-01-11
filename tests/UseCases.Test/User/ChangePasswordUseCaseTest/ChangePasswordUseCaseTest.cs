@@ -72,7 +72,7 @@ namespace UseCases.Test.User.ChangePasswordUseCaseTest
             userEntity.Password.ShouldBe(passwordEncrypter.Encrypt(password)); // Para garantir que a senha atual não foi alterada
         }
 
-        private static ChangePasswordUseCase CreateUseCase(UserEntity userEntity)
+        private static ChangePasswordUseCase CreateUseCase(LivroDeReceitas.Domain.Entities.User userEntity)
         {
             var loggedUser = LoggedUserBuilder.Build(userEntity);
             var userUpdateRepository = new UserUpdateOnlyRepositoryBuilder().GetById(userEntity).Build();

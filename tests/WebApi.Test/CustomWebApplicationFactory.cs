@@ -10,7 +10,7 @@ namespace WebApi.Test
 {
     public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
-        private UserEntity _userEntity = default!;
+        private LivroDeReceitas.Domain.Entities.User _userEntity = default!;
         private string _password = string.Empty;
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)

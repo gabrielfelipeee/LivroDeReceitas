@@ -15,7 +15,7 @@ namespace LivroDeReceitas.Infrastructure.DataAccess
 
         // DbSet que representa a tabela de usuários no banco de dados.
         // Cada DbSet corresponde a uma tabela no banco de dados e permite realizar consultas e operações nela.
-        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
 

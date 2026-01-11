@@ -6,13 +6,13 @@ namespace CommomTestUtilities.Entities
 {
     public class UserEntityBuilder
     {
-        public static (UserEntity userEntity, string password) Build()
+        public static (User userEntity, string password) Build()
         {
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
 
             var password = new Faker().Internet.Password();
 
-            var userEntity = new Faker<UserEntity>()
+            var userEntity = new Faker<User>()
                 .RuleFor(user => user.Id, _ => 1)
                 .RuleFor(user => user.UserIdentifier, _ => Guid.NewGuid())
                 .RuleFor(user => user.Name, (faker) => faker.Person.FirstName)

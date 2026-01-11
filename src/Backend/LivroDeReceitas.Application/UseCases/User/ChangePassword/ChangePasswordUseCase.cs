@@ -1,5 +1,4 @@
 ﻿using LivroDeReceitas.Comunication.Requests;
-using LivroDeReceitas.Domain.Entities;
 using LivroDeReceitas.Domain.Extensions;
 using LivroDeReceitas.Domain.Repositories;
 using LivroDeReceitas.Domain.Repositories.User;
@@ -30,11 +29,11 @@ namespace LivroDeReceitas.Application.UseCases.User.ChangePassword
 
         public async Task Execute(RequestChangePasswordJson request)
         {
-            UserEntity loggedUser = await _loggedUser.User();
+            var loggedUser = await _loggedUser.User();
 
             Validate(request, loggedUser);
 
-            UserEntity user = await _userUpdateOnlyRepository.GetById(loggedUser.Id);
+            var user = await _userUpdateOnlyRepository.GetById(loggedUser.Id);
             user.Password = _passwordEncripter.Encrypt(request.NewPassword);
 
             _userUpdateOnlyRepository.Update(user);
@@ -42,7 +41,7 @@ namespace LivroDeReceitas.Application.UseCases.User.ChangePassword
             await _unitOfWork.Commit();
         }
 
-        private void Validate(RequestChangePasswordJson request, UserEntity loggedUser)
+        private void Validate(RequestChangePasswordJson request, Domain.Entities.User loggedUser)
         {
             var result = new ChangePasswordValidator().Validate(request);
 
