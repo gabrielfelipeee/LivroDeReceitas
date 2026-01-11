@@ -39,7 +39,7 @@ namespace LivroDeReceitas.Application.UseCases.Recipe
                     instructionRule.RuleFor(instruction => instruction.Text)
                         .NotEmpty()
                         .WithMessage(ResourceMessagesException.INSTRUCTION_EMPTY)
-                        .MinimumLength(2000)
+                        .MaximumLength(2000)
                         .WithMessage(ResourceMessagesException.INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS);
                 });
             RuleFor(recipe => recipe.Instructions)
