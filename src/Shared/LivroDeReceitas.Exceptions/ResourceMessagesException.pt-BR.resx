@@ -159,4 +159,28 @@
   <data name="DIFFICULTY_LEVEL_NOT_SUPPORTED" xml:space="preserve">
     <value>O nível de dificuldade especificado para a receita não é suportado</value>
   </data>
+  <data name="AT_LEAST_ONE_INGREDIENT" xml:space="preserve">
+    <value>É necessário informar pelo menos um ingrediente</value>
+  </data>
+  <data name="AT_LEAST_ONE_INSTRUCTION" xml:space="preserve">
+    <value>Por favor, certifique-se de que haja pelo menos uma instrução fornecida para a receita</value>
+  </data>
+  <data name="DISH_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>O tipo de prato escolhido não é suportado</value>
+  </data>
+  <data name="INGREDIENT_EMPTY" xml:space="preserve">
+    <value>O ingrediente está vazio, por favor forneça um valor válido</value>
+  </data>
+  <data name="NON_NEGATIVE_INSTRUCTION_STEP" xml:space="preserve">
+    <value>Use um valor maior que zero para a etapa da instrução</value>
+  </data>
+  <data name="INSTRUCTION_EMPTY" xml:space="preserve">
+    <value>A instrução está vazia; por favor, forneça uma instrução válida</value>
+  </data>
+  <data name="INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS" xml:space="preserve">
+    <value>A instrução excede o limite máximo de 2000 caracteres</value>
+  </data>
+  <data name="TWO_OR_MORE_INSTRUCTIONS_SAME_ORDER" xml:space="preserve">
+    <value>Ao adicionar instruções, certifique-se de que cada uma tenha um número de etapa único. Duas ou mais instruções não podem ter o mesmo número de etapa</value>
+  </data>
 </root>
