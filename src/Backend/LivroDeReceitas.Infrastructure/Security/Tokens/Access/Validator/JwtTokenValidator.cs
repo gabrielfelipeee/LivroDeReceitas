@@ -18,10 +18,12 @@ namespace LivroDeReceitas.Infrastructure.Security.Tokens.Access.Validator
             // Define os parâmetros de validação do token
             var validationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false,              // Não validar "quem vai usar" (audience)
-                ValidateIssuer = false,                // Não validar "quem emitiu" (issuer)
+                ValidateAudience = false, // Não validar "quem vai usar" (audience)
+                ValidateIssuer = false, // Não validar "quem emitiu" (issuer)
+                ValidateIssuerSigningKey = true, // Ativa validação de assinatura
                 IssuerSigningKey = SecurityKey(_signinKey), // Chave secreta para validar a assinatura
-                ClockSkew = new TimeSpan(0)            // Sem tolerância de tempo (token expira exatamente no horário definido)
+                ValidateLifetime = true, // Ativa validação de Tempo de expiração
+                ClockSkew = new TimeSpan(0) // Sem tolerância de tempo (token expira exatamente no horário definido)
             };
 
             // Manipulador para ler e validar tokens JWT
