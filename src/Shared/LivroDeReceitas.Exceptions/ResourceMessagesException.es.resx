@@ -150,4 +150,13 @@
   <data name="PASSWORD_DIFFERENT_CURRENT_PASSWORD" xml:space="preserve">
     <value>La contraseña ingresada es diferente de la contraseña actual</value>
   </data>
+  <data name="RECIPE_TITLE_EMPTY" xml:space="preserve">
+    <value>El título de la receta se ha dejado en blanco. Por favor, proporcione un título válido</value>
+  </data>
+  <data name="COOKING_TIME_NOT_SUPPORTED" xml:space="preserve">
+    <value>El valor proporcionado para el tiempo de cocción no es compatible</value>
+  </data>
+  <data name="DIFFICULTY_LEVEL_NOT_SUPPORTED" xml:space="preserve">
+    <value>El nivel de dificultad especificado para la receta no es compatible</value>
+  </data>
 </root>
