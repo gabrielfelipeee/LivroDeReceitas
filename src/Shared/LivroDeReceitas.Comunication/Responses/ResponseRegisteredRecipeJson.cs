@@ -2,7 +2,7 @@
 {
     public class ResponseRegisteredRecipeJson
     {
-        public long Id { get; set; }
+        public string Id { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
     }
 }

@@ -8,6 +8,7 @@ using LivroDeReceitas.Application.UseCases.User.Register;
 using LivroDeReceitas.Application.UseCases.User.Update;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sqids;
 
 namespace LivroDeReceitas.Application
 {
@@ -18,14 +19,20 @@ namespace LivroDeReceitas.Application
         // this está dizendo ao compilador que o método AddApplication é um método de extensão para a interface IServiceCollection.
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
-            AddAutoMapper(services);
+            AddAutoMapper(services, configuration);
             AddUseCases(services);
         }
-        private static void AddAutoMapper(IServiceCollection services)
+        private static void AddAutoMapper(IServiceCollection services, IConfiguration configuration)
         {
+            var sqids = new SqidsEncoder<long>(new()
+            {
+                MinLength = 10, // Tamanho mínimo do Id
+                Alphabet = configuration.GetValue<string>("Settings:IdCryptographyAlphabet")!
+            });
+
             var autoMapper = new MapperConfiguration(options =>
             {
-                options.AddProfile(new AutoMapping());
+                options.AddProfile(new AutoMapping(sqids));
             }).CreateMapper();
 
             services.AddScoped(option => autoMapper);

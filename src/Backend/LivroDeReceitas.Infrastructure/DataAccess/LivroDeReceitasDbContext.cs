@@ -17,11 +17,6 @@ namespace LivroDeReceitas.Infrastructure.DataAccess
         // Cada DbSet corresponde a uma tabela no banco de dados e permite realizar consultas e operações nela.
         public DbSet<User> Users { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<Instruction> Instructions { get; set; }
-        public DbSet<DishType> DishTypes { get; set; }
-
-
 
 
 

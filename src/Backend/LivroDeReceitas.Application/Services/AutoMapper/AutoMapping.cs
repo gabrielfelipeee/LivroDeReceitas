@@ -2,13 +2,17 @@ using AutoMapper;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
 using LivroDeReceitas.Domain.Entities;
+using Sqids;
 
 namespace LivroDeReceitas.Application.Services.AutoMapper
 {
     public class AutoMapping : Profile
     {
-        public AutoMapping()
+        private readonly SqidsEncoder<long> _idEncoder;
+        public AutoMapping(SqidsEncoder<long> idEncoder)
         {
+            _idEncoder = idEncoder;
+
             RequestToDomain();
             DomainToResponse();
         }
@@ -39,7 +43,8 @@ namespace LivroDeReceitas.Application.Services.AutoMapper
             //       Fonte dos dados      |  Destino
             CreateMap<User, ResponseUserProfileJson>();
 
-            CreateMap<Recipe, ResponseRegisteredRecipeJson>();
+            CreateMap<Recipe, ResponseRegisteredRecipeJson>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(source => _idEncoder.Encode(source.Id)));
         }
     }
 }
