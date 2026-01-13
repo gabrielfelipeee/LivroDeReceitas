@@ -21,7 +21,7 @@ namespace WebApi.Test.User.Register
             var request = RequestRegisterUserJsonBuilder.Build();
 
             // Envia a requisição HTTP POST para o endpoint "User"
-            var response = await DoPost(METHOD, request);
+            var response = await DoPost(method: METHOD, request: request);
 
             // Verifica se o status HTTP retornado é 201 Created
             response.StatusCode.ShouldBe(HttpStatusCode.Created);
@@ -49,7 +49,7 @@ namespace WebApi.Test.User.Register
             var request = RequestRegisterUserJsonBuilder.Build();
             request.Name = string.Empty;
 
-            var response = await DoPost(METHOD, request, culture);
+            var response = await DoPost(method: METHOD, request: request, culture: culture);
 
             response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 

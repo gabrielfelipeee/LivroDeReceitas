@@ -45,11 +45,11 @@ namespace WebApi.Test.User.ChangePassword
                 Password = _password
             };
 
-            response = await DoPost("login", loginRequest);
+            response = await DoPost(method: "login", request: loginRequest);
             response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized); // Senha Antiga
 
             loginRequest.Password = request.NewPassword; // Senha Atual
-            response = await DoPost("login", loginRequest);
+            response = await DoPost(method: "login", request: loginRequest);
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 

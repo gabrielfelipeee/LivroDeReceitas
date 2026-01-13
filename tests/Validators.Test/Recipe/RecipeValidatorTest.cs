@@ -204,5 +204,19 @@ namespace Validators.Test.Recipe
             result.Errors.Count.ShouldBe(1);
             result.Errors.First().ErrorMessage.ShouldBe(ResourceMessagesException.INSTRUCTION_EMPTY);
         }
+
+        [Fact]
+        public void Error_InstructionsTooLong()
+        {
+            var request = RequestRecipeJsonBuilder.Build();
+            request.Instructions.First().Text = RequestStringGenerator.Paragraphs(minCharacters: 2001);
+
+            var validator = new RecipeValidator();
+            var result = validator.Validate(request);
+
+            result.IsValid.ShouldBeFalse();
+            result.Errors.Count.ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe(ResourceMessagesException.INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS);
+        }
     }
 }
