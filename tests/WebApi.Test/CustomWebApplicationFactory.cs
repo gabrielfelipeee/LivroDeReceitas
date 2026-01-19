@@ -1,16 +1,17 @@
 ﻿using CommomTestUtilities.Entities;
-using LivroDeReceitas.Domain.Entities;
 using LivroDeReceitas.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using LivroDeReceitas.Domain.Enums;
 
 namespace WebApi.Test
 {
     public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         private LivroDeReceitas.Domain.Entities.User _userEntity = default!;
+        private LivroDeReceitas.Domain.Entities.Recipe _recipe = default!;
         private string _password = string.Empty;
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -50,11 +51,21 @@ namespace WebApi.Test
         public string GetName() => _userEntity.Name;
         public string GetPassword() => _password;
 
+
+        public string GetRecipeTitle() => _recipe.Title;
+        public Difficulty GetRecipeDifficulty() => _recipe.Difficulty!.Value;
+        public CookingTime GetRecipeCookingTime() => _recipe.CookingTime!.Value;
+        public IList<DishType> GetRecipeDishTypes() => _recipe.DishTypes.Select(dishType => dishType.Type).ToList();
+
+
         private void StartDatabase(LivroDeReceitasDbContext dbContext)
         {
             (_userEntity, _password) = UserEntityBuilder.Build();
 
+            _recipe = RecipeBuilder.Build(_userEntity);
+
             dbContext.Users.Add(_userEntity); // Adiciona um usuário ao banco
+            dbContext.Recipes.Add(_recipe);
 
             dbContext.SaveChanges();
         }

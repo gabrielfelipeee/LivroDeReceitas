@@ -1,4 +1,5 @@
 ﻿using LivroDeReceitas.API.Attributes;
+using LivroDeReceitas.Application.UseCases.Recipe.Filter;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
@@ -17,6 +18,19 @@ namespace LivroDeReceitas.API.Controllers
             var response = await useCase.Execute(request);
 
             return Created(string.Empty, response);
+        }
+
+        [HttpPost("filter")]
+        [ProducesResponseType(typeof(ResponseRecipesJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Filter([FromBody] RequestFilterRecipeJson request, [FromServices] IFilterRecipeUseCase useCase)
+        {
+            var response = await useCase.Execute(request);
+
+            if (response.Recipes.Any())
+                return Ok(response);
+
+            return NoContent();
         }
     }
 }

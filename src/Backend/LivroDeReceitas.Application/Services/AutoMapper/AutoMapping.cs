@@ -45,6 +45,10 @@ namespace LivroDeReceitas.Application.Services.AutoMapper
 
             CreateMap<Recipe, ResponseRegisteredRecipeJson>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(source => _idEncoder.Encode(source.Id)));
+
+            CreateMap<Recipe, ResponseShortRecipeJson>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(source => _idEncoder.Encode(source.Id)))
+                .ForMember(dest => dest.AmountIngredients, opt => opt.MapFrom(source => source.Ingredients.Count));
         }
     }
 }
