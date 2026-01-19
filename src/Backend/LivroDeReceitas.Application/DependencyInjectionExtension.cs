@@ -1,6 +1,7 @@
 using AutoMapper;
 using LivroDeReceitas.Application.Services.AutoMapper;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
+using LivroDeReceitas.Application.UseCases.Recipe.Filter;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Application.UseCases.User.ChangePassword;
 using LivroDeReceitas.Application.UseCases.User.Profile;
@@ -47,6 +48,7 @@ namespace LivroDeReceitas.Application
             services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
 
             services.AddScoped<IRegisterRecipeUseCase, RegisterRecipeUseCase>();
+            services.AddScoped<IFilterRecipeUseCase, FilterRecipeUseCase>();
         }
     }
 }
