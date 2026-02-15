@@ -183,4 +183,7 @@
   <data name="TWO_OR_MORE_INSTRUCTIONS_SAME_ORDER" xml:space="preserve">
     <value>Al agregar instrucciones, asegúrese de que cada una tenga un número de paso único. Dos o más instrucciones no pueden tener el mismo número de paso</value>
   </data>
+  <data name="RECIPE_NOT_FOUND" xml:space="preserve">
+    <value>La receta no pudo ser encontrada</value>
+  </data>
 </root>

@@ -183,4 +183,7 @@
   <data name="TWO_OR_MORE_INSTRUCTIONS_SAME_ORDER" xml:space="preserve">
     <value>Ao adicionar instruções, certifique-se de que cada uma tenha um número de etapa único. Duas ou mais instruções não podem ter o mesmo número de etapa</value>
   </data>
+  <data name="RECIPE_NOT_FOUND" xml:space="preserve">
+    <value>A receita não pôde ser encontrada</value>
+  </data>
 </root>

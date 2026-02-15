@@ -40,5 +40,15 @@ namespace LivroDeReceitas.Infrastructure.DataAccess.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<Recipe?> GetById(User user, long recipeId)
+        {
+            return await _dbContext.Recipes
+                .AsNoTracking()
+                .Include(recipe => recipe.Ingredients)
+                .Include(recipe => recipe.DishTypes)
+                .Include(recipe => recipe.Instructions)
+                .FirstOrDefaultAsync(recipe => recipe.Active && recipe.UserId == user.Id && recipe.Id == recipeId);
+        }
     }
 }

@@ -183,4 +183,7 @@
   <data name="TWO_OR_MORE_INSTRUCTIONS_SAME_ORDER" xml:space="preserve">
     <value>When adding instructions, please ensure that each one has a unique step number. Two or more instructions cannot have the same step</value>
   </data>
+  <data name="RECIPE_NOT_FOUND" xml:space="preserve">
+    <value>The recipe could not be found</value>
+  </data>
 </root>

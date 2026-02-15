@@ -1,5 +1,7 @@
 ﻿using LivroDeReceitas.API.Attributes;
+using LivroDeReceitas.API.Binders;
 using LivroDeReceitas.Application.UseCases.Recipe.Filter;
+using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
@@ -28,6 +30,20 @@ namespace LivroDeReceitas.API.Controllers
             var response = await useCase.Execute(request);
 
             if (response.Recipes.Any())
+                return Ok(response);
+
+            return NoContent();
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(typeof(ResponseRecipeJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetById([FromRoute][ModelBinder(typeof(LivroDeReceitasIdBinder))] long id, [FromServices] IGetRecipeByIdUseCase useCase)
+        {
+            var response = await useCase.Execute(id);
+
+            if (response is not null)
                 return Ok(response);
 
             return NoContent();

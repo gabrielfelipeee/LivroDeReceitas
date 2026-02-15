@@ -29,6 +29,11 @@ namespace LivroDeReceitas.API.Filters
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Result = new BadRequestObjectResult(new ResponseErrorJson(validateException.ErrorMessages));
             }
+            else if (context.Exception is NotFoundException notFoundException)
+            {
+                context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                context.Result = new NotFoundObjectResult(new ResponseErrorJson(notFoundException.Message));
+            }
         }
 
         private static void ThrowUnknowException(ExceptionContext context)

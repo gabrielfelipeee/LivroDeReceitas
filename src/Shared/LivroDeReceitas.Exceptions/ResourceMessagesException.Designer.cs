@@ -223,6 +223,15 @@ namespace LivroDeReceitas.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a The recipe could not be found.
+        /// </summary>
+        public static string RECIPE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("RECIPE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a The recipe title has been left blank. Please provide a valid title.
         /// </summary>
         public static string RECIPE_TITLE_EMPTY {

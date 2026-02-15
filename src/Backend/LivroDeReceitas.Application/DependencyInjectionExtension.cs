@@ -2,6 +2,7 @@ using AutoMapper;
 using LivroDeReceitas.Application.Services.AutoMapper;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
 using LivroDeReceitas.Application.UseCases.Recipe.Filter;
+using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Application.UseCases.User.ChangePassword;
 using LivroDeReceitas.Application.UseCases.User.Profile;
@@ -9,6 +10,7 @@ using LivroDeReceitas.Application.UseCases.User.Register;
 using LivroDeReceitas.Application.UseCases.User.Update;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Sqids;
 
 namespace LivroDeReceitas.Application
@@ -20,23 +22,28 @@ namespace LivroDeReceitas.Application
         // this está dizendo ao compilador que o método AddApplication é um método de extensão para a interface IServiceCollection.
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
-            AddAutoMapper(services, configuration);
+            AddAutoMapper(services);
+            AddIdEncoder(services, configuration);
             AddUseCases(services);
         }
-        private static void AddAutoMapper(IServiceCollection services, IConfiguration configuration)
+        private static void AddAutoMapper(IServiceCollection services)
+        {
+            services.AddScoped(option => new MapperConfiguration(autoMapperOptions =>
+            {
+                var sqids = option.GetService<SqidsEncoder<long>>()!; // Recupera a instância do serviço de DI
+
+                autoMapperOptions.AddProfile(new AutoMapping(sqids));
+            }).CreateMapper());
+        }
+
+        private static void AddIdEncoder(IServiceCollection services, IConfiguration configuration)
         {
             var sqids = new SqidsEncoder<long>(new()
             {
                 MinLength = 10, // Tamanho mínimo do Id
                 Alphabet = configuration.GetValue<string>("Settings:IdCryptographyAlphabet")!
             });
-
-            var autoMapper = new MapperConfiguration(options =>
-            {
-                options.AddProfile(new AutoMapping(sqids));
-            }).CreateMapper();
-
-            services.AddScoped(option => autoMapper);
+            services.AddSingleton(sqids);
         }
 
         private static void AddUseCases(IServiceCollection services)
@@ -49,6 +56,7 @@ namespace LivroDeReceitas.Application
 
             services.AddScoped<IRegisterRecipeUseCase, RegisterRecipeUseCase>();
             services.AddScoped<IFilterRecipeUseCase, FilterRecipeUseCase>();
+            services.AddScoped<IGetRecipeByIdUseCase, GetRecipeByIdUseCase>();
         }
     }
 }

@@ -5,5 +5,6 @@ namespace LivroDeReceitas.Domain.Repositories.Recipe
     public interface IRecipeReadOnlyRepository
     {
         Task<IList<Entities.Recipe>> Filter(Entities.User user, FilterRecipeDto filters);
+        Task<Entities.Recipe?> GetById(Entities.User user, long recipeId);
     }
 }
