@@ -19,6 +19,8 @@ builder.Services.AddOpenApi();
 // Adiciona e configura o Swagger para a API
 builder.Services.AddSwaggerGen(options =>
 {
+    options.OperationFilter<IdsFilter>();
+
     // Define o esquema de segurança chamado "Bearer" (para autenticação via JWT)
     options.AddSecurityDefinition(AUTHENTICATION_TYPE, new OpenApiSecurityScheme
     {
