@@ -31,7 +31,7 @@ namespace LivroDeReceitas.API.Filters
 
                 var existUser = await _userReadOnlyRepository.ExistActiveUserWithIdentifier(userIdentifier);
                 if (existUser.IsFalse())
-                    throw new LivroDeReceitasException(ResourceMessagesException.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE);
+                    throw new UnauthorizedException(ResourceMessagesException.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE);
             }
             // Caso o token está expirado
             catch (SecurityTokenExpiredException)
@@ -59,7 +59,7 @@ namespace LivroDeReceitas.API.Filters
             var authentication = context.HttpContext.Request.Headers.Authorization.ToString();
 
             if (authentication.NotEmpty().IsFalse())
-                throw new LivroDeReceitasException(ResourceMessagesException.NO_TOKEN);
+                throw new UnauthorizedException(ResourceMessagesException.NO_TOKEN);
 
 
             // O token irá vir assim: "Bearer asdf1234xyz..."

@@ -1,4 +1,3 @@
-using System.Net;
 using LivroDeReceitas.Comunication.Responses;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
@@ -11,34 +10,21 @@ namespace LivroDeReceitas.API.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            if (context.Exception is LivroDeReceitasException)
-                HandleProjectException(context);
+            if (context.Exception is LivroDeReceitasException livroDeReceitasException)
+                HandleProjectException(context, livroDeReceitasException);
             else
                 ThrowUnknowException(context);
         }
 
-        private static void HandleProjectException(ExceptionContext context)
+        private static void HandleProjectException(ExceptionContext context, LivroDeReceitasException livroDeReceitasException)
         {
-            if (context.Exception is InvalidLoginException invalidLoginException)
-            {
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(invalidLoginException.Message));
-            }
-            else if (context.Exception is ErrorOnValidationException validateException)
-            {
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                context.Result = new BadRequestObjectResult(new ResponseErrorJson(validateException.ErrorMessages));
-            }
-            else if (context.Exception is NotFoundException notFoundException)
-            {
-                context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                context.Result = new NotFoundObjectResult(new ResponseErrorJson(notFoundException.Message));
-            }
+            context.HttpContext.Response.StatusCode = (int)livroDeReceitasException.GetStatusCode();
+            context.Result = new ObjectResult(new ResponseErrorJson(livroDeReceitasException.GetErrorMessages()));
         }
 
         private static void ThrowUnknowException(ExceptionContext context)
         {
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Result = new ObjectResult(new ResponseErrorJson(ResourceMessagesException.UNKNOWN_ERROR));
         }
     }

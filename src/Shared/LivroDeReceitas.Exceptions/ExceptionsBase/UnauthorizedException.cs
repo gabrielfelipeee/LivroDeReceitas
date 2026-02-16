@@ -2,10 +2,11 @@
 
 namespace LivroDeReceitas.Exceptions.ExceptionsBase
 {
-    public class InvalidLoginException : LivroDeReceitasException
+    public class UnauthorizedException : LivroDeReceitasException
     {
-        public InvalidLoginException() : base(ResourceMessagesException.EMAIL_OR_PASSWORD_INVALID)
+        public UnauthorizedException(string message) : base(message)
         { }
+
         public override IList<string> GetErrorMessages() => [Message];
 
         public override HttpStatusCode GetStatusCode() => HttpStatusCode.Unauthorized;

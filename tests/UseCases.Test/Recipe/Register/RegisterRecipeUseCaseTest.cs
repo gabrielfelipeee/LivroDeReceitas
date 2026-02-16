@@ -42,8 +42,8 @@ namespace UseCases.Test.Recipe.Register
             var useCase = CreateUseCase(user);
 
             var exception = await Should.ThrowAsync<ErrorOnValidationException>(async () => await useCase.Execute(request));
-            exception.ErrorMessages.Count.ShouldBe(1);
-            exception.ErrorMessages.ShouldContain(ResourceMessagesException.RECIPE_TITLE_EMPTY);
+            exception.GetErrorMessages().Count.ShouldBe(1);
+            exception.GetErrorMessages().ShouldContain(ResourceMessagesException.RECIPE_TITLE_EMPTY);
         }
 
         private static RegisterRecipeUseCase CreateUseCase(LivroDeReceitas.Domain.Entities.User user)

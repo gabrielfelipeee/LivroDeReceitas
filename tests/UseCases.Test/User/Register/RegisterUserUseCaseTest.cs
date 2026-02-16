@@ -41,8 +41,8 @@ namespace UseCases.Test.User.Register
 
             // Verifica se a exception é do tipo ErrorOnValidationException
             var exception = await Should.ThrowAsync<ErrorOnValidationException>(async () => await useCase.Execute(request));
-            exception.ErrorMessages.Count.ShouldBe(1);
-            exception.ErrorMessages.ShouldContain(ResourceMessagesException.EMAIL_ALREADY_REGISTERED);
+            exception.GetErrorMessages().Count.ShouldBe(1);
+            exception.GetErrorMessages().ShouldContain(ResourceMessagesException.EMAIL_ALREADY_REGISTERED);
         }
 
         [Fact]
@@ -54,8 +54,8 @@ namespace UseCases.Test.User.Register
             var useCase = CreateUseCase();
 
             var exception = await Should.ThrowAsync<ErrorOnValidationException>(async () => await useCase.Execute(request));
-            exception.ErrorMessages.Count.ShouldBe(1);
-            exception.ErrorMessages.ShouldContain(ResourceMessagesException.NAME_EMPTY);
+            exception.GetErrorMessages().Count.ShouldBe(1);
+            exception.GetErrorMessages().ShouldContain(ResourceMessagesException.NAME_EMPTY);
         }
 
         private static RegisterUserUseCase CreateUseCase(string? email = null)

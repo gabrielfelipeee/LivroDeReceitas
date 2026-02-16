@@ -43,8 +43,8 @@ namespace UseCases.Test.User.Update
             Func<Task> act = async () => await useCase.Execute(request);
 
             var exception = await Should.ThrowAsync<ErrorOnValidationException>(act);
-            exception.ErrorMessages.Count.ShouldBe(1);
-            exception.ErrorMessages.ShouldContain(ResourceMessagesException.NAME_EMPTY);
+            exception.GetErrorMessages().Count.ShouldBe(1);
+            exception.GetErrorMessages().ShouldContain(ResourceMessagesException.NAME_EMPTY);
 
             userEntity.Name.ShouldNotBe(request.Name);
             userEntity.Email.ShouldNotBe(request.Email);
@@ -61,8 +61,8 @@ namespace UseCases.Test.User.Update
 
             Func<Task> act = async () => await useCase.Execute(request);
             var exception = await Should.ThrowAsync<ErrorOnValidationException>(act);
-            exception.ErrorMessages.Count.ShouldBe(1);
-            exception.ErrorMessages.ShouldContain(ResourceMessagesException.EMAIL_ALREADY_REGISTERED);
+            exception.GetErrorMessages().Count.ShouldBe(1);
+            exception.GetErrorMessages().ShouldContain(ResourceMessagesException.EMAIL_ALREADY_REGISTERED);
 
             userEntity.Name.ShouldNotBe(request.Name);
             userEntity.Email.ShouldNotBe(request.Email);

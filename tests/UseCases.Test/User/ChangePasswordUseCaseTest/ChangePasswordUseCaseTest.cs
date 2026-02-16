@@ -47,8 +47,8 @@ namespace UseCases.Test.User.ChangePasswordUseCaseTest
 
             // Verifica se a exception é do tipo ErrorOnValidationException
             var exception = await Should.ThrowAsync<ErrorOnValidationException>(async () => await useCase.Execute(request));
-            exception.ErrorMessages.Count.ShouldBe(1);
-            exception.ErrorMessages.ShouldContain(ResourceMessagesException.PASSWORD_EMPTY);
+            exception.GetErrorMessages().Count.ShouldBe(1);
+            exception.GetErrorMessages().ShouldContain(ResourceMessagesException.PASSWORD_EMPTY);
 
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
             userEntity.Password.ShouldBe(passwordEncrypter.Encrypt(password)); // Para garantir que a senha atual não foi alterada
@@ -65,8 +65,8 @@ namespace UseCases.Test.User.ChangePasswordUseCaseTest
 
             // Verifica se a exception é do tipo ErrorOnValidationException
             var exception = await Should.ThrowAsync<ErrorOnValidationException>(async () => await useCase.Execute(request));
-            exception.ErrorMessages.Count.ShouldBe(1);
-            exception.ErrorMessages.ShouldContain(ResourceMessagesException.PASSWORD_DIFFERENT_CURRENT_PASSWORD);
+            exception.GetErrorMessages().Count.ShouldBe(1);
+            exception.GetErrorMessages().ShouldContain(ResourceMessagesException.PASSWORD_DIFFERENT_CURRENT_PASSWORD);
 
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
             userEntity.Password.ShouldBe(passwordEncrypter.Encrypt(password)); // Para garantir que a senha atual não foi alterada
