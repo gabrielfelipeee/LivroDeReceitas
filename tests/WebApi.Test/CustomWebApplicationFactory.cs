@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using LivroDeReceitas.Domain.Enums;
+using CommomTestUtilities.IdEncryption;
 
 namespace WebApi.Test
 {
@@ -51,7 +52,7 @@ namespace WebApi.Test
         public string GetName() => _userEntity.Name;
         public string GetPassword() => _password;
 
-
+        public string GetRecipeId() => IdEncripterBuilder.Build().Encode(_recipe.Id);
         public string GetRecipeTitle() => _recipe.Title;
         public Difficulty GetRecipeDifficulty() => _recipe.Difficulty!.Value;
         public CookingTime GetRecipeCookingTime() => _recipe.CookingTime!.Value;

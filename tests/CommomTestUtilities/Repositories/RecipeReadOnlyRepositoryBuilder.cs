@@ -18,6 +18,14 @@ namespace CommomTestUtilities.Repositories
             return this;
         }
 
+        public RecipeReadOnlyRepositoryBuilder GetById(User user, Recipe? recipe)
+        {
+            if(recipe is not null) 
+            _recipeReadOnlyRepository.Setup(repositoty => repositoty.GetById(user, recipe.Id)).ReturnsAsync(recipe);
+
+            return this;
+        }
+
         public IRecipeReadOnlyRepository Build() => _recipeReadOnlyRepository.Object;
     }
 }
