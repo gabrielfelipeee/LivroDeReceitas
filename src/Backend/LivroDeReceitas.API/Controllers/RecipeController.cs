@@ -1,5 +1,6 @@
 ﻿using LivroDeReceitas.API.Attributes;
 using LivroDeReceitas.API.Binders;
+using LivroDeReceitas.Application.UseCases.Recipe.Delete;
 using LivroDeReceitas.Application.UseCases.Recipe.Filter;
 using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
@@ -45,6 +46,17 @@ namespace LivroDeReceitas.API.Controllers
 
             if (response is not null)
                 return Ok(response);
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete([FromRoute][ModelBinder(typeof(LivroDeReceitasIdBinder))] long id, [FromServices] IDeleteRecipeUseCase useCase)
+        {
+            await useCase.Execute(id);
 
             return NoContent();
         }

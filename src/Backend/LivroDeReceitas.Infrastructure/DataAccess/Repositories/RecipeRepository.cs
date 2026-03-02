@@ -15,6 +15,11 @@ namespace LivroDeReceitas.Infrastructure.DataAccess.Repositories
             _dbContext = dbContext;
         }
         public async Task Add(Recipe recipe) => await _dbContext.Recipes.AddAsync(recipe);
+        public async Task Delete(long recipeId)
+        {
+            var recipe = await _dbContext.Recipes.FindAsync(recipeId);
+            _dbContext.Recipes.Remove(recipe!);
+        }
 
         public async Task<IList<Recipe>> Filter(User user, FilterRecipeDto filters)
         {
@@ -49,6 +54,12 @@ namespace LivroDeReceitas.Infrastructure.DataAccess.Repositories
                 .Include(recipe => recipe.DishTypes)
                 .Include(recipe => recipe.Instructions)
                 .FirstOrDefaultAsync(recipe => recipe.Active && recipe.UserId == user.Id && recipe.Id == recipeId);
+        }
+        public async Task<bool> ExistActiveRecipeWithId(User user, long recipeId)
+        {
+            return await _dbContext.Recipes
+                .AsNoTracking()
+                .AnyAsync(recipe => recipe.Active && recipe.UserId == user.Id && recipe.Id == recipeId);
         }
     }
 }

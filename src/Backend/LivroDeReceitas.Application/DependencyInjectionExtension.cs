@@ -1,6 +1,7 @@
 using AutoMapper;
 using LivroDeReceitas.Application.Services.AutoMapper;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
+using LivroDeReceitas.Application.UseCases.Recipe.Delete;
 using LivroDeReceitas.Application.UseCases.Recipe.Filter;
 using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
@@ -10,7 +11,6 @@ using LivroDeReceitas.Application.UseCases.User.Register;
 using LivroDeReceitas.Application.UseCases.User.Update;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Sqids;
 
 namespace LivroDeReceitas.Application
@@ -57,6 +57,7 @@ namespace LivroDeReceitas.Application
             services.AddScoped<IRegisterRecipeUseCase, RegisterRecipeUseCase>();
             services.AddScoped<IFilterRecipeUseCase, FilterRecipeUseCase>();
             services.AddScoped<IGetRecipeByIdUseCase, GetRecipeByIdUseCase>();
+            services.AddScoped<IDeleteRecipeUseCase, DeleteRecipeUseCase>();
         }
     }
 }
