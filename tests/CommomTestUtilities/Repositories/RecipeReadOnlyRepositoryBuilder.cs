@@ -20,8 +20,16 @@ namespace CommomTestUtilities.Repositories
 
         public RecipeReadOnlyRepositoryBuilder GetById(User user, Recipe? recipe)
         {
-            if(recipe is not null) 
-            _recipeReadOnlyRepository.Setup(repositoty => repositoty.GetById(user, recipe.Id)).ReturnsAsync(recipe);
+            if (recipe is not null)
+                _recipeReadOnlyRepository.Setup(repositoty => repositoty.GetById(user, recipe.Id)).ReturnsAsync(recipe);
+
+            return this;
+        }
+
+        public RecipeReadOnlyRepositoryBuilder ExistActiveRecipeWithId(User user, Recipe? recipe)
+        {
+            if (recipe is not null)
+                _recipeReadOnlyRepository.Setup(repositoty => repositoty.ExistActiveRecipeWithId(user, recipe.Id)).ReturnsAsync(true);
 
             return this;
         }

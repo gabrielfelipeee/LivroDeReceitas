@@ -7,7 +7,7 @@ namespace WebApi.Test
     public class LivroDeReceitasClassFixture : IClassFixture<CustomWebApplicationFactory>
     {
         // WebApplicationFactory configura o ambiente de teste com suporte a DI e pipeline completo da aplicação
-        private readonly HttpClient _httpClient;      
+        private readonly HttpClient _httpClient;
         public LivroDeReceitasClassFixture(CustomWebApplicationFactory factory) => _httpClient = factory.CreateClient();
 
         protected async Task<HttpResponseMessage> DoPost(string method, object request, string token = "", string culture = "en")
@@ -33,6 +33,14 @@ namespace WebApi.Test
             AuthorizeRequest(token);
 
             return await _httpClient.PutAsJsonAsync(method, request);
+        }
+
+        protected async Task<HttpResponseMessage> DoDelete(string method, string token, string culture = "en")
+        {
+            ChangeRequestCulture(culture);
+            AuthorizeRequest(token);
+
+            return await _httpClient.DeleteAsync(method);
         }
 
         private void ChangeRequestCulture(string culture)
