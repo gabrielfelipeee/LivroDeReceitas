@@ -61,8 +61,8 @@ namespace LivroDeReceitas.Application.UseCases.User.Register
 
         private async Task Validate(RequestRegisterUserJson request)
         {
-            var Validator = new RegisterUserValidator();
-            var result = Validator.Validate(request);
+            var validator = new RegisterUserValidator();
+            var result = validator.Validate(request);
 
             var emailExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
             if (emailExist)

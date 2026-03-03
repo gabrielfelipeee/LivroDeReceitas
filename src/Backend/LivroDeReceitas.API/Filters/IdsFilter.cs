@@ -1,7 +1,6 @@
 ﻿using LivroDeReceitas.API.Binders;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Reflection.Metadata;
 
 namespace LivroDeReceitas.API.Filters
 {
@@ -17,7 +16,7 @@ namespace LivroDeReceitas.API.Filters
 
             foreach (var parameter in operation.Parameters)
             {
-                if (encryptedIds.TryGetValue(parameter.Name, out var apiParameter))
+                if (encryptedIds.TryGetValue(parameter.Name, out var _))
                 {
                     parameter.Schema.Format = string.Empty;
                     parameter.Schema.Type = "string";
@@ -28,7 +27,7 @@ namespace LivroDeReceitas.API.Filters
             {
                 foreach (var property in schema.Properties)
                 {
-                    if (encryptedIds.TryGetValue(property.Key, out var apiParameter))
+                    if (encryptedIds.TryGetValue(property.Key, out var _))
                     {
                         property.Value.Format = string.Empty;
                         property.Value.Type = "string";

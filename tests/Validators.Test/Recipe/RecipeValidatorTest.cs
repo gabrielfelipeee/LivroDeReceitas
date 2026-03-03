@@ -3,6 +3,7 @@ using LivroDeReceitas.Application.UseCases.Recipe;
 using LivroDeReceitas.Comunication.Enums;
 using LivroDeReceitas.Exceptions;
 using Shouldly;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Validators.Test.Recipe
 {
@@ -80,6 +81,7 @@ namespace Validators.Test.Recipe
         [InlineData(null)]
         [InlineData("      ")]
         [InlineData("")]
+        [SuppressMessage("Usage", "xUnit1012:Null should only be used for nullable parameters", Justification = "Testes de Unidade")]
         public void Error_EmptyTitle(string title)
         {
             var validator = new RecipeValidator();
@@ -143,6 +145,7 @@ namespace Validators.Test.Recipe
         [InlineData(null)]
         [InlineData("      ")]
         [InlineData("")]
+        [SuppressMessage("Usage", "xUnit1012:Null should only be used for nullable parameters", Justification = "Testes de Unidade")]
         public void Error_EmptyValueIngredients(string ingredient)
         {
             var validator = new RecipeValidator();
@@ -191,6 +194,7 @@ namespace Validators.Test.Recipe
         [InlineData(null)]
         [InlineData("      ")]
         [InlineData("")]
+        [SuppressMessage("Usage", "xUnit1012:Null should only be used for nullable parameters", Justification = "Testes de Unidade")]
         public void Error_EmptyValueInstructions(string instruction)
         {
             var validator = new RecipeValidator();
