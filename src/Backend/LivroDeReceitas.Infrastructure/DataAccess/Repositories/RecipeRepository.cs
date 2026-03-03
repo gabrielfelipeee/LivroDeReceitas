@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LivroDeReceitas.Infrastructure.DataAccess.Repositories
 {
-    public class RecipeRepository : IRecipeWriteOnlyRepository, IRecipeReadOnlyRepository
+    public class RecipeRepository : IRecipeWriteOnlyRepository, IRecipeUpdateOnlyRepository, IRecipeReadOnlyRepository
     {
         private readonly LivroDeReceitasDbContext _dbContext;
 
@@ -14,12 +14,23 @@ namespace LivroDeReceitas.Infrastructure.DataAccess.Repositories
         {
             _dbContext = dbContext;
         }
+
+
+
         public async Task Add(Recipe recipe) => await _dbContext.Recipes.AddAsync(recipe);
         public async Task Delete(long recipeId)
         {
             var recipe = await _dbContext.Recipes.FindAsync(recipeId);
             _dbContext.Recipes.Remove(recipe!);
         }
+
+
+
+        public void Update(Recipe recipe) => _dbContext.Recipes.Update(recipe);
+        async Task<Recipe?> IRecipeUpdateOnlyRepository.GetById(User user, long recipeId)
+            => await GetFullRecipeById(user, recipeId).FirstOrDefaultAsync();
+
+
 
         public async Task<IList<Recipe>> Filter(User user, FilterRecipeDto filters)
         {
@@ -46,20 +57,25 @@ namespace LivroDeReceitas.Infrastructure.DataAccess.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<Recipe?> GetById(User user, long recipeId)
-        {
-            return await _dbContext.Recipes
-                .AsNoTracking()
-                .Include(recipe => recipe.Ingredients)
-                .Include(recipe => recipe.DishTypes)
-                .Include(recipe => recipe.Instructions)
-                .FirstOrDefaultAsync(recipe => recipe.Active && recipe.UserId == user.Id && recipe.Id == recipeId);
-        }
+        async Task<Recipe?> IRecipeReadOnlyRepository.GetById(User user, long recipeId)
+            => await GetFullRecipeById(user, recipeId).AsNoTracking().FirstOrDefaultAsync();
+
         public async Task<bool> ExistActiveRecipeWithId(User user, long recipeId)
         {
             return await _dbContext.Recipes
                 .AsNoTracking()
                 .AnyAsync(recipe => recipe.Active && recipe.UserId == user.Id && recipe.Id == recipeId);
+        }
+
+
+
+        private IQueryable<Recipe> GetFullRecipeById(User user, long recipeId)
+        {
+            return _dbContext.Recipes
+                .Include(recipe => recipe.Ingredients)
+                .Include(recipe => recipe.DishTypes)
+                .Include(recipe => recipe.Instructions)
+                .Where(recipe => recipe.Active && recipe.UserId == user.Id && recipe.Id == recipeId);
         }
     }
 }

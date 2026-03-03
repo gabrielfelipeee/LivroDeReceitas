@@ -4,6 +4,7 @@ using LivroDeReceitas.Application.UseCases.Recipe.Delete;
 using LivroDeReceitas.Application.UseCases.Recipe.Filter;
 using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
+using LivroDeReceitas.Application.UseCases.Recipe.Update;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,21 @@ namespace LivroDeReceitas.API.Controllers
             var response = await useCase.Execute(request);
 
             return Created(string.Empty, response);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(
+            [FromServices] IUpdateRecipeUseCase useCase,
+            [FromBody] RequestRecipeJson request,
+            [FromRoute][ModelBinder(typeof(LivroDeReceitasIdBinder))] long id
+            )
+        {
+            await useCase.Execute(id, request);
+
+            return NoContent();
         }
 
         [HttpPost("filter")]

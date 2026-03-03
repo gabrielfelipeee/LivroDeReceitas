@@ -77,6 +77,7 @@ namespace LivroDeReceitas.Infrastructure
 
             services.AddScoped<IRecipeWriteOnlyRepository, RecipeRepository>();
             services.AddScoped<IRecipeReadOnlyRepository, RecipeRepository>();
+            services.AddScoped<IRecipeUpdateOnlyRepository, RecipeRepository>();
         }
 
 
