@@ -5,11 +5,11 @@ using System.Net;
 
 namespace WebApi.Test.Recipe.Register
 {
-    public class RegisterRecipeInvalidToken : LivroDeReceitasClassFixture
+    public class RegisterRecipeInvalidTokenTest : LivroDeReceitasClassFixture
     {
         private const string METHOD = "recipe";
 
-        public RegisterRecipeInvalidToken(CustomWebApplicationFactory factory) : base(factory)
+        public RegisterRecipeInvalidTokenTest(CustomWebApplicationFactory factory) : base(factory)
         {}
 
         [Fact]
