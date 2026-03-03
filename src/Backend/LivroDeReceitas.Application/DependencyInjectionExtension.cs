@@ -1,5 +1,6 @@
 using AutoMapper;
 using LivroDeReceitas.Application.Services.AutoMapper;
+using LivroDeReceitas.Application.UseCases.Dashboard;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
 using LivroDeReceitas.Application.UseCases.Recipe.Delete;
 using LivroDeReceitas.Application.UseCases.Recipe.Filter;
@@ -60,6 +61,7 @@ namespace LivroDeReceitas.Application
             services.AddScoped<IGetRecipeByIdUseCase, GetRecipeByIdUseCase>();
             services.AddScoped<IDeleteRecipeUseCase, DeleteRecipeUseCase>();
             services.AddScoped<IUpdateRecipeUseCase, UpdateRecipeUseCase>();
+            services.AddScoped<IDashboardUseCase, DashboardUseCase>();
         }
     }
 }
