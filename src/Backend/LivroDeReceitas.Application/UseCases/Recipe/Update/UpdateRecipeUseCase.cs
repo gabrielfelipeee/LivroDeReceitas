@@ -7,7 +7,7 @@ using LivroDeReceitas.Domain.Services.LoggedUser;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 
-namespace LivroDeReceitas.Application.UseCases.Recipe.Update.UpdateRecipeUseCase
+namespace LivroDeReceitas.Application.UseCases.Recipe.Update
 {
     public class UpdateRecipeUseCase : IUpdateRecipeUseCase
     {

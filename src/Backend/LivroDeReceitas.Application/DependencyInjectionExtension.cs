@@ -6,7 +6,6 @@ using LivroDeReceitas.Application.UseCases.Recipe.Filter;
 using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Application.UseCases.Recipe.Update;
-using LivroDeReceitas.Application.UseCases.Recipe.Update.UpdateRecipeUseCase;
 using LivroDeReceitas.Application.UseCases.User.ChangePassword;
 using LivroDeReceitas.Application.UseCases.User.Profile;
 using LivroDeReceitas.Application.UseCases.User.Register;
