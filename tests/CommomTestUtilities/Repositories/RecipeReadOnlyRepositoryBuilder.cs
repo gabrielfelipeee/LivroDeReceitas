@@ -26,6 +26,13 @@ namespace CommomTestUtilities.Repositories
             return this;
         }
 
+        public RecipeReadOnlyRepositoryBuilder GetForDashboard(User user, IList<Recipe> recipes)
+        {
+            _recipeReadOnlyRepository.Setup(repositoty => repositoty.GetForDashboard(user)).ReturnsAsync(recipes);
+
+            return this;
+        }
+
         public RecipeReadOnlyRepositoryBuilder ExistActiveRecipeWithId(User user, Recipe? recipe)
         {
             if (recipe is not null)

@@ -1,9 +1,11 @@
-﻿using LivroDeReceitas.Application.UseCases.Dashboard;
+﻿using LivroDeReceitas.API.Attributes;
+using LivroDeReceitas.Application.UseCases.Dashboard;
 using LivroDeReceitas.Comunication.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LivroDeReceitas.API.Controllers
 {
+    [AuthenticatedUser]
     public class DashboardController : LivroDeReceitasController
     {
         [HttpGet]
