@@ -106,6 +106,15 @@ namespace LivroDeReceitas.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Duplicated ingredients are not allowed in the list..
+        /// </summary>
+        public static string DUPLICATED_INGREDIENTS_IN_LIST {
+            get {
+                return ResourceManager.GetString("DUPLICATED_INGREDIENTS_IN_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Email already registered.
         /// </summary>
         public static string EMAIL_ALREADY_REGISTERED {
@@ -151,6 +160,15 @@ namespace LivroDeReceitas.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Invalid ingredient format. Please ensure the ingredient follows our pattern..
+        /// </summary>
+        public static string INGREDIENT_NOT_FOLLOWING_PATTERN {
+            get {
+                return ResourceManager.GetString("INGREDIENT_NOT_FOLLOWING_PATTERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a The instruction is left empty, please provide a valid instruction.
         /// </summary>
         public static string INSTRUCTION_EMPTY {
@@ -165,6 +183,15 @@ namespace LivroDeReceitas.Exceptions {
         public static string INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS {
             get {
                 return ResourceManager.GetString("INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Invalid number of ingredients. The list must contain between 1 and 5 ingredients..
+        /// </summary>
+        public static string INVALID_NUMBER_INGREDIENTS {
+            get {
+                return ResourceManager.GetString("INVALID_NUMBER_INGREDIENTS", resourceCulture);
             }
         }
         

@@ -186,4 +186,13 @@
   <data name="RECIPE_NOT_FOUND" xml:space="preserve">
     <value>La receta no pudo ser encontrada</value>
   </data>
+  <data name="INVALID_NUMBER_INGREDIENTS" xml:space="preserve">
+    <value>Número inválido de ingredientes. La lista debe contener entre 1 y 5 ingredientes.</value>
+  </data>
+  <data name="DUPLICATED_INGREDIENTS_IN_LIST" xml:space="preserve">
+    <value>No se permiten ingredientes duplicados en la lista.</value>
+  </data>
+  <data name="INGREDIENT_NOT_FOLLOWING_PATTERN" xml:space="preserve">
+    <value>Formato de ingrediente inválido. Por favor, asegúrese de que el ingrediente siga nuestro patrón.</value>
+  </data>
 </root>

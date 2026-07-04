@@ -2,6 +2,7 @@
 using LivroDeReceitas.API.Binders;
 using LivroDeReceitas.Application.UseCases.Recipe.Delete;
 using LivroDeReceitas.Application.UseCases.Recipe.Filter;
+using LivroDeReceitas.Application.UseCases.Recipe.Generate;
 using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Application.UseCases.Recipe.Update;
@@ -15,7 +16,7 @@ namespace LivroDeReceitas.API.Controllers
     public class RecipeController : LivroDeReceitasController
     {
         [HttpPost]
-        [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ResponseRegisteredRecipeJson), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RequestRecipeJson request, [FromServices] IRegisterRecipeUseCase useCase)
         {
@@ -64,6 +65,16 @@ namespace LivroDeReceitas.API.Controllers
                 return Ok(response);
 
             return NoContent();
+        }
+
+        [HttpPost("generate")]
+        [ProducesResponseType(typeof(ResponseGenerateRecipeJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Generate([FromBody] RequestGenerateRecipeJson request, [FromServices] IGenerateRecipeUseCase useCase)
+        {
+            var response = await useCase.Execute(request);
+
+            return Ok(response);
         }
 
         [HttpDelete]

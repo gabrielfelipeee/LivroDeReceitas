@@ -6,6 +6,7 @@ using LivroDeReceitas.Domain.Repositories.User;
 using LivroDeReceitas.Domain.Security.Cryptography;
 using LivroDeReceitas.Domain.Security.Tokens;
 using LivroDeReceitas.Domain.Services.LoggedUser;
+using LivroDeReceitas.Domain.Services.OpenAI;
 using LivroDeReceitas.Infrastructure.DataAccess;
 using LivroDeReceitas.Infrastructure.DataAccess.Repositories;
 using LivroDeReceitas.Infrastructure.Extensions;
@@ -13,10 +14,13 @@ using LivroDeReceitas.Infrastructure.Security.Cryptography;
 using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Generator;
 using LivroDeReceitas.Infrastructure.Security.Tokens.Access.Validator;
 using LivroDeReceitas.Infrastructure.Services.LoggedUser;
+using LivroDeReceitas.Infrastructure.Services.OpenAI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using OpenAI.Chat;
+using LivroDeReceitas.Domain.ValueObjects;
 
 namespace LivroDeReceitas.Infrastructure
 {
@@ -28,6 +32,7 @@ namespace LivroDeReceitas.Infrastructure
             AddTokens(services, configuration);
             AddLoggedUser(services);
             AddPasswordEncripter(services, configuration);
+            AddOpenAI(services, configuration);
 
             // Não precisa adicionar o contexto e nem o FluentMigrator nos testes
             if (configuration.IsUnitTestEnvironment())
@@ -126,6 +131,15 @@ namespace LivroDeReceitas.Infrastructure
         {
             var additionalKey = configuration.GetValue<string>("Settings:Password:additionalKey");
             services.AddScoped<IPasswordEncripter>(option => new Sha512Encripter(additionalKey!));
+        }
+
+        private static void AddOpenAI(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IGenerateRecipeAI, ChatGPTService>();
+
+            var apiKey = configuration.GetValue<string>("Settings:OpenAI:ApiKey");
+
+            services.AddScoped(c => new ChatClient(LivroDeReceitasRuleConstants.CHAT_MODEL, apiKey));
         }
     }
 }
