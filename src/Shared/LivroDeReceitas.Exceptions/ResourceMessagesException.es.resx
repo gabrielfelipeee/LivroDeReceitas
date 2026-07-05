@@ -195,4 +195,7 @@
   <data name="INGREDIENT_NOT_FOLLOWING_PATTERN" xml:space="preserve">
     <value>Formato de ingrediente inválido. Por favor, asegúrese de que el ingrediente siga nuestro patrón.</value>
   </data>
+  <data name="ONLY_IMAGES_ACCEPTED" xml:space="preserve">
+    <value>Solo se aceptan imágenes en formato PNG, JPG y JPEG</value>
+  </data>
 </root>

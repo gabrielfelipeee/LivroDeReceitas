@@ -6,6 +6,7 @@ using LivroDeReceitas.Application.UseCases.Recipe.Generate;
 using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Application.UseCases.Recipe.Update;
+using LivroDeReceitas.Application.UseCases.Recipe.Image;
 using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,19 @@ namespace LivroDeReceitas.API.Controllers
             var response = await useCase.Execute(request);
 
             return Ok(response);
+        }
+
+        [HttpPut("image/{id}")]
+        [ProducesResponseType(typeof(ResponseGenerateRecipeJson), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateImage(
+            [FromRoute][ModelBinder(typeof(LivroDeReceitasIdBinder))] long id,
+            IFormFile file,
+            [FromServices] IAddUpdateImageCoverUseCase useCase)
+        {
+            await useCase.Execute(id, file);
+
+            return NoContent();
         }
 
         [HttpDelete]

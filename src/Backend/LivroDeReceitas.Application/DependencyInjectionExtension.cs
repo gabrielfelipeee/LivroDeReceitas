@@ -8,6 +8,7 @@ using LivroDeReceitas.Application.UseCases.Recipe.Generate;
 using LivroDeReceitas.Application.UseCases.Recipe.GetById;
 using LivroDeReceitas.Application.UseCases.Recipe.Register;
 using LivroDeReceitas.Application.UseCases.Recipe.Update;
+using LivroDeReceitas.Application.UseCases.Recipe.Image;
 using LivroDeReceitas.Application.UseCases.User.ChangePassword;
 using LivroDeReceitas.Application.UseCases.User.Profile;
 using LivroDeReceitas.Application.UseCases.User.Register;
@@ -63,6 +64,7 @@ namespace LivroDeReceitas.Application
             services.AddScoped<IDeleteRecipeUseCase, DeleteRecipeUseCase>();
             services.AddScoped<IUpdateRecipeUseCase, UpdateRecipeUseCase>();
             services.AddScoped<IGenerateRecipeUseCase, GenerateRecipeUseCase>();
+            services.AddScoped<IAddUpdateImageCoverUseCase, AddUpdateImageCoverUseCase>();
 
             services.AddScoped<IDashboardUseCase, DashboardUseCase>();
         }
