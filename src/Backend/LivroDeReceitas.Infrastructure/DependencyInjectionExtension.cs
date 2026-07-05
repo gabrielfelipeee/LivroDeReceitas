@@ -21,6 +21,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using OpenAI.Chat;
 using LivroDeReceitas.Domain.ValueObjects;
+using LivroDeReceitas.Domain.Services.Storage;
+using LivroDeReceitas.Infrastructure.Services.Storage;
+using Azure.Storage.Blobs;
 
 namespace LivroDeReceitas.Infrastructure
 {
@@ -33,6 +36,7 @@ namespace LivroDeReceitas.Infrastructure
             AddLoggedUser(services);
             AddPasswordEncripter(services, configuration);
             AddOpenAI(services, configuration);
+            AddAzureStorage(services, configuration);
 
             // Não precisa adicionar o contexto e nem o FluentMigrator nos testes
             if (configuration.IsUnitTestEnvironment())
@@ -140,6 +144,13 @@ namespace LivroDeReceitas.Infrastructure
             var apiKey = configuration.GetValue<string>("Settings:OpenAI:ApiKey");
 
             services.AddScoped(c => new ChatClient(LivroDeReceitasRuleConstants.CHAT_MODEL, apiKey));
+        }
+
+        private static void AddAzureStorage(IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetValue<string>("Settings:BlobStorage:Azure");
+
+            services.AddScoped<IBlobStorageService>(service => new AzureStorageService(new BlobServiceClient(connectionString)));
         }
     }
 }
