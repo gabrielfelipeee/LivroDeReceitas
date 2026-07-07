@@ -33,7 +33,7 @@ namespace LivroDeReceitas.Application.UseCases.Recipe.GetById
 
             if (!string.IsNullOrWhiteSpace(recipe.ImageIdentifier))
             {
-                var url = await _blobStorageService.GetImageUrl(loggedUser, recipe.ImageIdentifier);
+                var url = await _blobStorageService.GetFileUrl(loggedUser, recipe.ImageIdentifier);
 
                 response.ImageUrl = url;
             }

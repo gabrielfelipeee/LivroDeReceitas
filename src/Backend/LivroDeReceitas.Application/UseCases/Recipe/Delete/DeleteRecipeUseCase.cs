@@ -1,6 +1,7 @@
 ﻿using LivroDeReceitas.Domain.Repositories;
 using LivroDeReceitas.Domain.Repositories.Recipe;
 using LivroDeReceitas.Domain.Services.LoggedUser;
+using LivroDeReceitas.Domain.Services.Storage;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 
@@ -11,17 +12,20 @@ namespace LivroDeReceitas.Application.UseCases.Recipe.Delete
         private readonly ILoggedUser _loggedUser;
         private readonly IRecipeReadOnlyRepository _recipeReadOnlyRepository;
         private readonly IRecipeWriteOnlyRepository _recipeWriteOnlyRepository;
+        private readonly IBlobStorageService _blobStorageService;
         private readonly IUnitOfWork _unitOfWork;
 
         public DeleteRecipeUseCase(
             ILoggedUser loggedUser,
             IRecipeReadOnlyRepository recipeReadOnlyRepository,
             IRecipeWriteOnlyRepository recipeWriteOnlyRepository,
+            IBlobStorageService blobStorageService,
             IUnitOfWork unitOfWork)
         {
             _loggedUser = loggedUser;
             _recipeReadOnlyRepository = recipeReadOnlyRepository;
             _recipeWriteOnlyRepository = recipeWriteOnlyRepository;
+            _blobStorageService = blobStorageService;
             _unitOfWork = unitOfWork;
         }
 
@@ -29,8 +33,11 @@ namespace LivroDeReceitas.Application.UseCases.Recipe.Delete
         {
             var user = await _loggedUser.User();
 
-            if (!await _recipeReadOnlyRepository.ExistActiveRecipeWithId(user, recipeId))
-                throw new NotFoundException(ResourceMessagesException.RECIPE_NOT_FOUND);
+            var recipe = await _recipeReadOnlyRepository.GetById(user, recipeId)
+                ?? throw new NotFoundException(ResourceMessagesException.RECIPE_NOT_FOUND);
+
+            if (!string.IsNullOrWhiteSpace(recipe.ImageIdentifier))
+                await _blobStorageService.Delete(user, recipe.ImageIdentifier);
 
             await _recipeWriteOnlyRepository.Delete(recipeId);
             await _unitOfWork.Commit();

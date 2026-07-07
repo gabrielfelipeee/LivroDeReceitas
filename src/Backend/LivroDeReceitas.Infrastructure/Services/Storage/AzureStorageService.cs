@@ -15,7 +15,7 @@ namespace LivroDeReceitas.Infrastructure.Services.Storage
             _blobServiceClient = blobServiceClient;
         }
 
-        public async Task<string> GetImageUrl(User user, string fileName)
+        public async Task<string> GetFileUrl(User user, string fileName)
         {
             var containerName = user.UserIdentifier.ToString();
 
@@ -51,6 +51,16 @@ namespace LivroDeReceitas.Infrastructure.Services.Storage
 
             var blobClient = containerClient.GetBlobClient(fileName);
             await blobClient.UploadAsync(file, overwrite: true);
+        }
+
+        public async Task Delete(User user, string fileName)
+        {
+            var containerClient = _blobServiceClient.GetBlobContainerClient(user.UserIdentifier.ToString());
+            var exist = await containerClient.ExistsAsync();
+            if (exist.Value.IsFalse())
+                return;
+
+            await containerClient.DeleteBlobIfExistsAsync(fileName);
         }
     }
 }
