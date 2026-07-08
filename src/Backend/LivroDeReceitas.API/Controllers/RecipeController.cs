@@ -19,7 +19,7 @@ namespace LivroDeReceitas.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ResponseRegisteredRecipeJson), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] RequestRecipeJson request, [FromServices] IRegisterRecipeUseCase useCase)
+        public async Task<IActionResult> Register([FromForm] RequestRegisterRecipeFormData request, [FromServices] IRegisterRecipeUseCase useCase)
         {
             var response = await useCase.Execute(request);
 

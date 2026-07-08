@@ -2,6 +2,7 @@
 using CommomTestUtilities.LoggedUser;
 using CommomTestUtilities.Repositories;
 using LivroDeReceitas.Application.UseCases.Recipe.Delete;
+using LivroDeReceitas.Domain.Services.Storage;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 using Shouldly;
