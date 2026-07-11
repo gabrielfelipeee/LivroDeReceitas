@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using LivroDeReceitas.Application.Extensions;
 using LivroDeReceitas.Comunication.Responses;
 using LivroDeReceitas.Domain.Repositories.Recipe;
 using LivroDeReceitas.Domain.Services.LoggedUser;
+using LivroDeReceitas.Domain.Services.Storage;
 
 namespace LivroDeReceitas.Application.UseCases.Dashboard
 {
@@ -9,15 +11,18 @@ namespace LivroDeReceitas.Application.UseCases.Dashboard
     {
         private readonly ILoggedUser _loggedUseer;
         private readonly IRecipeReadOnlyRepository _recipeReadOnlyRepository;
+        private readonly IBlobStorageService _blobStorageService;
         private readonly IMapper _mapper;
         public DashboardUseCase(
             ILoggedUser loggedUser,
             IRecipeReadOnlyRepository recipeReadOnlyRepository,
-            IMapper mapper
+            IBlobStorageService blobStorageService,
+        IMapper mapper
             )
         {
             _loggedUseer = loggedUser;
             _recipeReadOnlyRepository = recipeReadOnlyRepository;
+            _blobStorageService = blobStorageService;
             _mapper = mapper;
         }
 
@@ -29,7 +34,7 @@ namespace LivroDeReceitas.Application.UseCases.Dashboard
 
             return new ResponseRecipesJson
             {
-                Recipes = _mapper.Map<IList<ResponseShortRecipeJson>>(recipes)
+                Recipes = await recipes.MapToShortRecipeJson(loggedUser, _blobStorageService, _mapper)
             };
         }
     }
