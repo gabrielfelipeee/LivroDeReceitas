@@ -50,6 +50,7 @@ namespace CommomTestUtilities.Entities
                     Id = 1,
                     Type = faker.PickRandom<LivroDeReceitas.Domain.Enums.DishType>()
                 }))
+                .RuleFor(recipe => recipe.ImageIdentifier, _ => $"{Guid.NewGuid()}.png")
                 .RuleFor(recipe => recipe.UserId, _ => user.Id);
         }
     }

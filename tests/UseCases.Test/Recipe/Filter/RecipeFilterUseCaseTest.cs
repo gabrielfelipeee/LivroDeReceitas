@@ -1,4 +1,5 @@
-﻿using CommomTestUtilities.Entities;
+﻿using CommomTestUtilities.BlobStorage;
+using CommomTestUtilities.Entities;
 using CommomTestUtilities.LoggedUser;
 using CommomTestUtilities.Mapper;
 using CommomTestUtilities.Repositories;
@@ -53,8 +54,9 @@ namespace UseCases.Test.Recipe.Filter
             var loggedUser = LoggedUserBuilder.Build(user);
             var recipeReadOnlyRepository = new RecipeReadOnlyRepositoryBuilder().Filter(user, recipes).Build();
             var mapper = MapperBuilder.Build();
+            var blobStorage = new BlobStorageServiceBuilder().GetFileUrl(user, recipes).Build();
 
-            return new FilterRecipeUseCase(mapper, loggedUser, recipeReadOnlyRepository);
+            return new FilterRecipeUseCase(mapper, loggedUser, recipeReadOnlyRepository, blobStorage);
         }
     }
 }

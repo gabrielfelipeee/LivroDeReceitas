@@ -24,6 +24,7 @@ using LivroDeReceitas.Domain.ValueObjects;
 using LivroDeReceitas.Domain.Services.Storage;
 using LivroDeReceitas.Infrastructure.Services.Storage;
 using Azure.Storage.Blobs;
+using LivroDeReceitas.Domain.Extensions;
 
 namespace LivroDeReceitas.Infrastructure
 {
@@ -150,7 +151,8 @@ namespace LivroDeReceitas.Infrastructure
         {
             var connectionString = configuration.GetValue<string>("Settings:BlobStorage:Azure");
 
-            services.AddScoped<IBlobStorageService>(service => new AzureStorageService(new BlobServiceClient(connectionString)));
+            if (connectionString.NotEmpty())
+                services.AddScoped<IBlobStorageService>(service => new AzureStorageService(new BlobServiceClient(connectionString)));
         }
     }
 }

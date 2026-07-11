@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using LivroDeReceitas.Domain.Enums;
 using CommomTestUtilities.IdEncryption;
+using CommomTestUtilities.BlobStorage;
 
 namespace WebApi.Test
 {
@@ -29,6 +30,10 @@ namespace WebApi.Test
 
                     // Cria um provedor de serviços para o banco de dados em memória
                     var provider = services.AddEntityFrameworkInMemoryDatabase().BuildServiceProvider();
+
+                    // Mock do Blob Storage
+                    var blobStorage = new BlobStorageServiceBuilder().Build();
+                    services.AddScoped(option => blobStorage);
 
                     // Registra o DbContext usando um banco de dados em memória
                     services.AddDbContext<LivroDeReceitasDbContext>(options =>

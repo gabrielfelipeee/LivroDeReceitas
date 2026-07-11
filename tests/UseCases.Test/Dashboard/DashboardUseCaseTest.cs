@@ -1,4 +1,5 @@
-﻿using CommomTestUtilities.Entities;
+﻿using CommomTestUtilities.BlobStorage;
+using CommomTestUtilities.Entities;
 using CommomTestUtilities.LoggedUser;
 using CommomTestUtilities.Mapper;
 using CommomTestUtilities.Repositories;
@@ -30,8 +31,9 @@ namespace UseCases.Test.Dashboard
             var loggedUser = LoggedUserBuilder.Build(user);
             var recipeReadOnlyRepository = new RecipeReadOnlyRepositoryBuilder().GetForDashboard(user, recipes).Build();
             var mapper = MapperBuilder.Build();
+            var blobStorage = new BlobStorageServiceBuilder().GetFileUrl(user, recipes).Build();
 
-            return new DashboardUseCase(loggedUser, recipeReadOnlyRepository, mapper);
+            return new DashboardUseCase(loggedUser, recipeReadOnlyRepository, blobStorage, mapper);
         }
     }
 }

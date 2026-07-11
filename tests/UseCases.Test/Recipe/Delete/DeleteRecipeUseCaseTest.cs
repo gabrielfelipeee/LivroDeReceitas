@@ -1,8 +1,8 @@
-﻿using CommomTestUtilities.Entities;
+﻿using CommomTestUtilities.BlobStorage;
+using CommomTestUtilities.Entities;
 using CommomTestUtilities.LoggedUser;
 using CommomTestUtilities.Repositories;
 using LivroDeReceitas.Application.UseCases.Recipe.Delete;
-using LivroDeReceitas.Domain.Services.Storage;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 using Shouldly;
@@ -40,11 +40,12 @@ namespace UseCases.Test.Recipe.Delete
         private static DeleteRecipeUseCase CreateUseCase(LivroDeReceitas.Domain.Entities.User user, LivroDeReceitas.Domain.Entities.Recipe? recipe = null)
         {
             var loggedUser = LoggedUserBuilder.Build(user);
-            var recipeReadOnlyRepository = new RecipeReadOnlyRepositoryBuilder().ExistActiveRecipeWithId(user, recipe).Build();
+            var recipeReadOnlyRepository = new RecipeReadOnlyRepositoryBuilder().GetById(user, recipe).Build();
             var recipeWriteOnlyRepository = RecipeWriteOnlyRepositoryBuilder.Build();
             var unitOfWork = UnitOfWorkBuilder.Build();
+            var blobStorage = new BlobStorageServiceBuilder().GetFileUrl(user, recipe?.ImageIdentifier).Build();
 
-            return new DeleteRecipeUseCase(loggedUser, recipeReadOnlyRepository, recipeWriteOnlyRepository, unitOfWork);
+            return new DeleteRecipeUseCase(loggedUser, recipeReadOnlyRepository, recipeWriteOnlyRepository, blobStorage, unitOfWork);
         }
     }
 }

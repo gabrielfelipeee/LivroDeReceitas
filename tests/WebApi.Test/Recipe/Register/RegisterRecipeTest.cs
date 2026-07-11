@@ -23,12 +23,12 @@ namespace WebApi.Test.Recipe.Register
         [Fact]
         public async Task Success()
         {
-            var request = RequestRecipeJsonBuilder.Build();
+            var request = RequestRegisterRecipeFormDataBuilder.Build();
 
             var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier);
 
             // Envia a requisição HTTP POST para o endpoint "Recipe"
-            var response = await DoPost(method: METHOD, request: request, token: token);
+            var response = await DoPostFormData(method: METHOD, request: request, token: token);
 
             // Verifica se o status HTTP retornado é 201 Created
             response.StatusCode.ShouldBe(HttpStatusCode.Created);
@@ -53,12 +53,12 @@ namespace WebApi.Test.Recipe.Register
         [ClassData(typeof(CultureInlineDataTest))]
         public async Task Error_TitleEmpty(string culture)
         {
-            var request = RequestRecipeJsonBuilder.Build();
+            var request = RequestRegisterRecipeFormDataBuilder.Build();
             request.Title = string.Empty;
 
             var token = JwtTokenGeneratorBuilder.Build().Generate(_userIdentifier);
 
-            var response = await DoPost(method: METHOD, request: request, token: token, culture: culture);
+            var response = await DoPostFormData(method: METHOD, request: request, token: token, culture: culture);
 
             response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
