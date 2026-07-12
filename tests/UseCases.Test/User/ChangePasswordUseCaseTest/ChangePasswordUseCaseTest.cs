@@ -5,7 +5,6 @@ using CommomTestUtilities.Repositories;
 using CommomTestUtilities.Requests;
 using LivroDeReceitas.Application.UseCases.User.ChangePassword;
 using LivroDeReceitas.Comunication.Requests;
-using LivroDeReceitas.Domain.Entities;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 using Shouldly;
@@ -24,12 +23,11 @@ namespace UseCases.Test.User.ChangePasswordUseCaseTest
 
             var useCase = CreateUseCase(userEntity);
 
-            Func<Task> act = async () => await useCase.Execute(request);
-
-            await Should.NotThrowAsync(act);
+            Func<Task> act = async () => { await useCase.Execute(request); };
+            act.ShouldNotThrow();
 
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
-            userEntity.Password.ShouldBe(passwordEncrypter.Encrypt(request.NewPassword));
+            passwordEncrypter.IsValid(password: request.NewPassword, passwordHash: userEntity.Password).ShouldBe(true);
         }
 
         [Fact]
@@ -51,7 +49,7 @@ namespace UseCases.Test.User.ChangePasswordUseCaseTest
             exception.GetErrorMessages().ShouldContain(ResourceMessagesException.PASSWORD_EMPTY);
 
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
-            userEntity.Password.ShouldBe(passwordEncrypter.Encrypt(password)); // Para garantir que a senha atual não foi alterada
+            passwordEncrypter.IsValid(password: password, passwordHash: userEntity.Password).ShouldBe(true); // Para garantir que a senha atual não foi alterada
         }
 
         [Fact]
@@ -69,7 +67,7 @@ namespace UseCases.Test.User.ChangePasswordUseCaseTest
             exception.GetErrorMessages().ShouldContain(ResourceMessagesException.PASSWORD_DIFFERENT_CURRENT_PASSWORD);
 
             var passwordEncrypter = PasswordEncrypterBuilder.Build();
-            userEntity.Password.ShouldBe(passwordEncrypter.Encrypt(password)); // Para garantir que a senha atual não foi alterada
+            passwordEncrypter.IsValid(password: password, passwordHash: userEntity.Password).ShouldBe(true); // Para garantir que a senha atual não foi alterada
         }
 
         private static ChangePasswordUseCase CreateUseCase(LivroDeReceitas.Domain.Entities.User userEntity)

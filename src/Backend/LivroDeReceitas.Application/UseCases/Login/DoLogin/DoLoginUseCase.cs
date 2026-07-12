@@ -1,5 +1,6 @@
 ﻿using LivroDeReceitas.Comunication.Requests;
 using LivroDeReceitas.Comunication.Responses;
+using LivroDeReceitas.Domain.Extensions;
 using LivroDeReceitas.Domain.Repositories.User;
 using LivroDeReceitas.Domain.Security.Cryptography;
 using LivroDeReceitas.Domain.Security.Tokens;
@@ -21,9 +22,10 @@ namespace LivroDeReceitas.Application.UseCases.Login.DoLogin
 
         public async Task<ResponseRegisteredUserJson> Execute(RequestLoginJson request)
         {
-            var encriptedPassword = _passwordEncripter.Encrypt(request.Password);
+            var user = await _userReadOnlyRepository.GetByEmail(request.Email);
 
-            var user = await _userReadOnlyRepository.GetByEmailAndPassword(request.Email, encriptedPassword) ?? throw new InvalidLoginException();
+            if (user is null || _passwordEncripter.IsValid(password: request.Password, passwordHash: user.Password).IsFalse())
+                throw new InvalidLoginException();
 
             return new ResponseRegisteredUserJson
             {

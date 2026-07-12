@@ -5,7 +5,6 @@ using CommomTestUtilities.Requests;
 using CommomTestUtilities.Tokens;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
 using LivroDeReceitas.Comunication.Requests;
-using LivroDeReceitas.Domain.Entities;
 using LivroDeReceitas.Exceptions;
 using LivroDeReceitas.Exceptions.ExceptionsBase;
 using Shouldly;
@@ -56,7 +55,7 @@ namespace UseCases.Test.Login.DoLogin
 
             var readOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
             if (userEntity is not null)
-                readOnlyRepositoryBuilder.GetByEmailAndPassword(userEntity);
+                readOnlyRepositoryBuilder.GetByEmail(userEntity);
 
             return new DoLoginUseCase(readOnlyRepositoryBuilder.Build(), passwordEncrypter, accessTokenGenerator);
         }

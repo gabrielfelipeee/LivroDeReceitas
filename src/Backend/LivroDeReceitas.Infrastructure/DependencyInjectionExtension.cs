@@ -38,7 +38,7 @@ namespace LivroDeReceitas.Infrastructure
             AddRepositories(services);
             AddTokens(services, configuration);
             AddLoggedUser(services);
-            AddPasswordEncripter(services, configuration);
+            AddPasswordEncripter(services);
             AddOpenAI(services, configuration);
             AddAzureStorage(services, configuration);
             AddQueue(services, configuration);
@@ -137,10 +137,9 @@ namespace LivroDeReceitas.Infrastructure
 
         private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
 
-        private static void AddPasswordEncripter(IServiceCollection services, IConfiguration configuration)
+        private static void AddPasswordEncripter(IServiceCollection services)
         {
-            var additionalKey = configuration.GetValue<string>("Settings:Password:additionalKey");
-            services.AddScoped<IPasswordEncripter>(option => new Sha512Encripter(additionalKey!));
+            services.AddScoped<IPasswordEncripter, BCryptNet>();
         }
 
         private static void AddOpenAI(IServiceCollection services, IConfiguration configuration)

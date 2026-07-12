@@ -1,5 +1,4 @@
-﻿using Bogus;
-using LivroDeReceitas.Domain.Entities;
+﻿using LivroDeReceitas.Domain.Entities;
 using LivroDeReceitas.Domain.Repositories.User;
 using Moq;
 
@@ -22,9 +21,9 @@ namespace CommomTestUtilities.Repositories
             _repository.Setup(repository => repository.ExistActiveUserWithEmail(email)).ReturnsAsync(true);
         }
 
-        public void GetByEmailAndPassword(User userEntity)
+        public void GetByEmail(User user)
         {
-            _repository.Setup(repository => repository.GetByEmailAndPassword(userEntity.Email, userEntity.Password)).ReturnsAsync(userEntity);
+            _repository.Setup(repository => repository.GetByEmail(user.Email)).ReturnsAsync(user);
         }
     }
 }
