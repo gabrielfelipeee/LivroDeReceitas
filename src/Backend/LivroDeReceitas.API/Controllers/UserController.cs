@@ -1,5 +1,6 @@
 ﻿using LivroDeReceitas.API.Attributes;
 using LivroDeReceitas.Application.UseCases.User.ChangePassword;
+using LivroDeReceitas.Application.UseCases.User.Delete.Request;
 using LivroDeReceitas.Application.UseCases.User.Profile;
 using LivroDeReceitas.Application.UseCases.User.Register;
 using LivroDeReceitas.Application.UseCases.User.Update;
@@ -44,9 +45,18 @@ namespace LivroDeReceitas.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
         [AuthenticatedUser]
-        public async Task<IActionResult> ChangePassword([FromServices] IChangePasswordUseCase useCase,[FromBody] RequestChangePasswordJson request)
+        public async Task<IActionResult> ChangePassword([FromServices] IChangePasswordUseCase useCase, [FromBody] RequestChangePasswordJson request)
         {
             await useCase.Execute(request);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [AuthenticatedUser]
+        public async Task<IActionResult> Delete([FromServices] IRequestDeleteUserUseCase useCase)
+        {
+            await useCase.Execute();
             return NoContent();
         }
     }

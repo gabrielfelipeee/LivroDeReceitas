@@ -25,6 +25,9 @@ using LivroDeReceitas.Domain.Services.Storage;
 using LivroDeReceitas.Infrastructure.Services.Storage;
 using Azure.Storage.Blobs;
 using LivroDeReceitas.Domain.Extensions;
+using LivroDeReceitas.Infrastructure.Services.ServiceBus;
+using Azure.Messaging.ServiceBus;
+using LivroDeReceitas.Domain.Services.ServiceBus;
 
 namespace LivroDeReceitas.Infrastructure
 {
@@ -38,6 +41,7 @@ namespace LivroDeReceitas.Infrastructure
             AddPasswordEncripter(services, configuration);
             AddOpenAI(services, configuration);
             AddAzureStorage(services, configuration);
+            AddQueue(services, configuration);
 
             // Não precisa adicionar o contexto e nem o FluentMigrator nos testes
             if (configuration.IsUnitTestEnvironment())
@@ -153,6 +157,19 @@ namespace LivroDeReceitas.Infrastructure
 
             if (connectionString.NotEmpty())
                 services.AddScoped<IBlobStorageService>(service => new AzureStorageService(new BlobServiceClient(connectionString)));
+        }
+        private static void AddQueue(IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetValue<string>("Settings:ServiceBus:DeleteUserAccount");
+
+            var client = new ServiceBusClient(connectionString, new ServiceBusClientOptions
+            {
+                TransportType = ServiceBusTransportType.AmqpWebSockets
+            });
+
+            var deleteQueue = new DeleteUserQueue(client.CreateSender("user"));
+
+            services.AddScoped<IDeleteUserQueue>(service => deleteQueue);
         }
     }
 }
