@@ -1,3 +1,4 @@
+using LivroDeReceitas.API.BackgroundServices;
 using LivroDeReceitas.API.Converters;
 using LivroDeReceitas.API.Filters;
 using LivroDeReceitas.API.Middleware;
@@ -82,6 +83,8 @@ builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHostedService<DeleteUserService>();
 
 var app = builder.Build();
 

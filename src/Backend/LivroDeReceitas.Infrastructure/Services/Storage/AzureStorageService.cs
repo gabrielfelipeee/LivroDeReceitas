@@ -62,5 +62,11 @@ namespace LivroDeReceitas.Infrastructure.Services.Storage
 
             await containerClient.DeleteBlobIfExistsAsync(fileName);
         }
+
+        public async Task DeleteContainer(Guid userIdentifier)
+        {
+            var containerClient = _blobServiceClient.GetBlobContainerClient(userIdentifier.ToString());
+            await containerClient.DeleteIfExistsAsync();
+        }
     }
 }

@@ -88,6 +88,7 @@ namespace LivroDeReceitas.Infrastructure
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
             services.AddScoped<IUserReadOnlyRepository, UserRepository>();
             services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
+            services.AddScoped<IUserDeleteOnlyRepository, UserRepository>();
 
             services.AddScoped<IRecipeWriteOnlyRepository, RecipeRepository>();
             services.AddScoped<IRecipeReadOnlyRepository, RecipeRepository>();
@@ -158,6 +159,7 @@ namespace LivroDeReceitas.Infrastructure
             if (connectionString.NotEmpty())
                 services.AddScoped<IBlobStorageService>(service => new AzureStorageService(new BlobServiceClient(connectionString)));
         }
+
         private static void AddQueue(IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("Settings:ServiceBus:DeleteUserAccount");
@@ -167,8 +169,15 @@ namespace LivroDeReceitas.Infrastructure
                 TransportType = ServiceBusTransportType.AmqpWebSockets
             });
 
-            var deleteQueue = new DeleteUserQueue(client.CreateSender("user"));
 
+            var deleteUserProcessor = new DeleteUserProcessor(client.CreateProcessor("user", new ServiceBusProcessorOptions
+            {
+                MaxConcurrentCalls = 1
+            }));
+            services.AddSingleton(deleteUserProcessor);
+
+
+            var deleteQueue = new DeleteUserQueue(client.CreateSender("user"));
             services.AddScoped<IDeleteUserQueue>(service => deleteQueue);
         }
     }
