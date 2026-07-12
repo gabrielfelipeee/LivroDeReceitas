@@ -163,6 +163,8 @@ namespace LivroDeReceitas.Infrastructure
         private static void AddQueue(IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("Settings:ServiceBus:DeleteUserAccount");
+            if (string.IsNullOrWhiteSpace(connectionString))
+                return;
 
             var client = new ServiceBusClient(connectionString, new ServiceBusClientOptions
             {

@@ -4,6 +4,7 @@ using LivroDeReceitas.API.Filters;
 using LivroDeReceitas.API.Middleware;
 using LivroDeReceitas.API.Token;
 using LivroDeReceitas.Application;
+using LivroDeReceitas.Domain.Extensions;
 using LivroDeReceitas.Domain.Security.Tokens;
 using LivroDeReceitas.Infrastructure;
 using LivroDeReceitas.Infrastructure.Extensions;
@@ -85,9 +86,12 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHostedService<DeleteUserService>();
+if (builder.Configuration.IsUnitTestEnvironment().IsFalse())
+{
+    builder.Services.AddHostedService<DeleteUserService>();
 
-AddGoogleAuthentication();
+    AddGoogleAuthentication();
+}
 
 var app = builder.Build();
 
