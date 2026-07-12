@@ -15,6 +15,8 @@ namespace LivroDeReceitas.API.BackgroundServices
             _serviceBusProcessor = processor.GetProcessor();
         }
 
+
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _serviceBusProcessor.ProcessMessageAsync += ProcessMessageAsync; // Executa a função ProcessMessageAsync sempre que receber uma mensagem

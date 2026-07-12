@@ -23,6 +23,9 @@ namespace LivroDeReceitas.Infrastructure.DataAccess.Repositories
                 .FirstOrDefaultAsync(user => user.Active && user.Email.Equals(email) && user.Password.Equals(password));
         }
 
+        public async Task<User?> GetByEmail(string email) => await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Active && user.Email.Equals(email));
+
+
         public async Task<User> GetById(long id) => await _dbContext.Users.FirstAsync(user => user.Id == id);
 
         public void Update(User userEntity) => _dbContext.Users.Update(userEntity);

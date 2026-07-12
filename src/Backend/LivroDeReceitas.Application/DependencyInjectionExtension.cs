@@ -2,6 +2,7 @@ using AutoMapper;
 using LivroDeReceitas.Application.Services.AutoMapper;
 using LivroDeReceitas.Application.UseCases.Dashboard;
 using LivroDeReceitas.Application.UseCases.Login.DoLogin;
+using LivroDeReceitas.Application.UseCases.Login.External;
 using LivroDeReceitas.Application.UseCases.Recipe.Delete;
 using LivroDeReceitas.Application.UseCases.Recipe.Filter;
 using LivroDeReceitas.Application.UseCases.Recipe.Generate;
@@ -55,6 +56,8 @@ namespace LivroDeReceitas.Application
         private static void AddUseCases(IServiceCollection services)
         {
             services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
+            services.AddScoped<IExternalLoginUseCase, ExternalLoginUseCase>();
+
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
             services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
